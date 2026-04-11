@@ -9,13 +9,20 @@
     <style>
         /* --- 變數與基礎設定 --- */
         :root {
+            /* --- 品牌色保持 --- */
             --primary-color: #2563eb;
             --secondary-color: #7c3aed;
-            --bg-color: #f8fafc;
+
+            /* --- 背景色調整為豆沙綠 --- */
+            --bg-color: #EDF2EB; /* 主體淡豆沙綠 */
+
+            /* --- 內容與文字 --- */
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --card-bg: rgba(255, 255, 255, 0.7);
-            --card-border: rgba(255, 255, 255, 0.5);
+
+            /* --- 卡片調整 --- */
+            --card-bg: rgba(255, 255, 255, 0.6); /* 降低亮度，白色透明 */
+            --card-border: rgba(169, 186, 157, 0.2); /* 淡灰綠透明邊框 */
             --transition-speed: 0.3s;
         }
 
@@ -38,7 +45,7 @@
             flex-direction: column;
         }
 
-        /* --- 動態背景光暈 --- */
+        /* --- 動態背景光暈 (調整為綠色系) --- */
         .background-animation {
             position: fixed;
             top: 0;
@@ -47,13 +54,14 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
-            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            /* 綠色系漸層背景 */
+            background: linear-gradient(135deg, #F0F5EC 0%, #E2E8D8 100%);
         }
 
         .blob {
             position: absolute;
-            filter: blur(80px);
-            opacity: 0.6;
+            filter: blur(100px); /* 增加模糊，效果更柔和 */
+            opacity: 0.5; /* 降低不透明度 */
             border-radius: 50%;
             animation: float 10s infinite ease-in-out alternate;
         }
@@ -61,7 +69,7 @@
         .blob-1 {
             width: 400px;
             height: 400px;
-            background: #dbeafe;
+            background: #C5D0BA; /* 豆沙綠 blob 1 */
             top: -10%;
             left: -10%;
             animation-delay: 0s;
@@ -70,7 +78,7 @@
         .blob-2 {
             width: 500px;
             height: 500px;
-            background: #ede9fe;
+            background: #DDE5D2; /* 淡豆沙綠 blob 2 */
             bottom: -20%;
             right: -10%;
             animation-delay: -2s;
@@ -79,7 +87,7 @@
         .blob-3 {
             width: 300px;
             height: 300px;
-            background: #e0f2fe;
+            background: #EDF2EB; /* 極淡豆沙綠 blob 3 */
             top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
@@ -104,7 +112,7 @@
         /* --- 頁首設計 --- */
         header {
             text-align: center;
-            padding: 4rem 0 3rem;
+            padding: 5rem 0 3rem; /* 增加頂部邊距 */
         }
 
         .header-content h1 {
@@ -131,7 +139,7 @@
             padding-bottom: 4rem;
         }
 
-        /* --- 卡片設計 (Glassmorphism) --- */
+        /* --- 卡片設計 (Glassmorphism, 調整為綠色系) --- */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -152,7 +160,7 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: rgba(37, 99, 235, 0.3);
+            border-color: rgba(169, 186, 157, 0.4); /* 懸停時邊框更深 */
         }
 
         .card-icon {
@@ -211,13 +219,13 @@
             color: #15803d;
         }
 
-        /* --- 頁尾設計 --- */
+        /* --- 頁尾設計 (調整邊框) --- */
         footer {
             text-align: center;
             padding: 2rem 0;
             color: var(--text-muted);
             font-size: 0.875rem;
-            border-top: 1px solid rgba(0,0,0,0.05);
+            border-top: 1px solid rgba(169, 186, 157, 0.1); /* 淡灰綠邊框 */
             margin-top: auto;
         }
 
