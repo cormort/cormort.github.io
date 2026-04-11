@@ -5,9 +5,232 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>中央政府特種基金AI智能分析平台</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- 變數與基礎設定 --- */
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --bg-color: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(255, 255, 255, 0.5);
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* 支援英文 Inter 與繁體中文 Noto Sans */
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 動態背景光暈 --- */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+        }
+
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.6;
+            border-radius: 50%;
+            animation: float 10s infinite ease-in-out alternate;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: #dbeafe;
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .blob-2 {
+            width: 500px;
+            height: 500px;
+            background: #ede9fe;
+            bottom: -20%;
+            right: -10%;
+            animation-delay: -2s;
+        }
+
+        .blob-3 {
+            width: 300px;
+            height: 300px;
+            background: #e0f2fe;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, 50px) scale(1.1); }
+        }
+
+        /* --- 佈局容器 --- */
+        .container {
+            width: 90%;
+            max-width: 1280px;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- 頁首設計 --- */
+        header {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+
+        .header-content h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .header-content .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* --- 響應式網格 --- */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            padding-bottom: 4rem;
+        }
+
+        /* --- 卡片設計 (Glassmorphism) --- */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            transition: all var(--transition-speed) ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            transition: transform var(--transition-speed) ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-content h2 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text-main);
+        }
+
+        .card-content p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            flex: 1; /* 讓文字區塊自動撐開，讓下方的 tag 對齊底部 */
+        }
+
+        /* --- 標籤設計 --- */
+        .card-tag {
+            align-self: flex-start;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tag-api {
+            background-color: #f3e8ff;
+            color: #7e22ce;
+        }
+
+        .tag-tool {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .tag-system {
+            background-color: #dcfce3;
+            color: #15803d;
+        }
+
+        /* --- 頁尾設計 --- */
+        footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid rgba(0,0,0,0.05);
+            margin-top: auto;
+        }
+
+        /* --- 手機版微調 --- */
+        @media (max-width: 640px) {
+            .header-content h1 {
+                font-size: 2rem;
+            }
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -27,18 +250,15 @@
 
         <main>
             <div class="grid-container">
-                <!-- Card 1 -->
-                <a href="https://huggingface.co/spaces/cormort/fund-law-api" class="card" target="_blank"
-                    rel="noopener noreferrer">
+                <a href="https://huggingface.co/spaces/cormort/fund-law-api" class="card" target="_blank" rel="noopener noreferrer">
                     <div class="card-icon">🧠</div>
                     <div class="card-content">
-                        <h2>特種基金收支保管及收支運用辦法資料庫</h2>
+                        <h2>法規資料庫 API</h2>
                         <p>基於 HuggingFace Space 的法規檢索與問答服務 API 介面，支援智能語意搜尋。</p>
                         <span class="card-tag tag-api">AI & API</span>
                     </div>
                 </a>
 
-                <!-- Card 2 -->
                 <a href="https://cormort.github.io/excel_merge/" class="card" target="_blank" rel="noopener noreferrer">
                     <div class="card-icon">📊</div>
                     <div class="card-content">
@@ -48,9 +268,7 @@
                     </div>
                 </a>
 
-                <!-- Card 3 -->
-                <a href="https://cormort.github.io/multi-xlsx_merge/" class="card" target="_blank"
-                    rel="noopener noreferrer">
+                <a href="https://cormort.github.io/multi-xlsx_merge/" class="card" target="_blank" rel="noopener noreferrer">
                     <div class="card-icon">📑</div>
                     <div class="card-content">
                         <h2>Multi XLSX Merge</h2>
@@ -59,9 +277,7 @@
                     </div>
                 </a>
 
-                <!-- Card 4 -->
-                <a href="https://cormort.github.io/budget-opinion-reviewer/" class="card" target="_blank"
-                    rel="noopener noreferrer">
+                <a href="https://cormort.github.io/budget-opinion-reviewer/" class="card" target="_blank" rel="noopener noreferrer">
                     <div class="card-icon">📋</div>
                     <div class="card-content">
                         <h2>預算審查意見檢誤系統</h2>
@@ -70,9 +286,7 @@
                     </div>
                 </a>
 
-                <!-- Card 5 -->
-                <a href="https://cormort.github.io/excel-validator/" class="card" target="_blank"
-                    rel="noopener noreferrer">
+                <a href="https://cormort.github.io/excel-validator/" class="card" target="_blank" rel="noopener noreferrer">
                     <div class="card-icon">✅</div>
                     <div class="card-content">
                         <h2>Excel Validator</h2>
@@ -80,53 +294,48 @@
                         <span class="card-tag tag-tool">Data Tool</span>
                     </div>
                 </a>
-                <!-- Card 6 -->
-                <a href="https://cormort.github.io/pdfviewer_v2/" class="card" target="_blank"
-                    rel="noopener noreferrer">
-                    <div class="card-icon">📑</div>
+
+                <a href="https://cormort.github.io/pdfviewer_v2/" class="card" target="_blank" rel="noopener noreferrer">
+                    <div class="card-icon">📖</div>
                     <div class="card-content">
                         <h2>模擬題、說帖查找神器</h2>
-                        <p>上傳多個pdf檔案，跨檔查找特定關鍵字的頁面。</p>
+                        <p>上傳多個 PDF 檔案，跨檔查找特定關鍵字的頁面，加速資料盤點。</p>
                         <span class="card-tag tag-tool">Data Tool</span>
                     </div>
                 </a>
-                <!-- Card 7 -->
-                <a href="https://huggingface.co/spaces/cormort/tw_statistic_map" class="card" target="_blank"
-                    rel="noopener noreferrer">
+
+                <a href="https://huggingface.co/spaces/cormort/tw_statistic_map" class="card" target="_blank" rel="noopener noreferrer">
                     <div class="card-icon">🗺️</div>
                     <div class="card-content">
-                        <h2>臺灣Open data視覺化儀表板</h2>
-                        <p>上傳具臺灣行政區欄位的資料，產生統計地圖。</p>
+                        <h2>臺灣 Open Data 視覺化</h2>
+                        <p>上傳具臺灣行政區欄位的資料，一鍵產生互動式統計地圖儀表板。</p>
                         <span class="card-tag tag-tool">Data Tool</span>
                     </div>
                 </a>
-                <!-- Card 8 -->
-                <a href="https://huggingface.co/spaces/cormort/time-series-forecast" class="card" target="_blank"
-                    rel="noopener noreferrer">
-                    <div class="card-icon">🎢</div>
+
+                <a href="https://huggingface.co/spaces/cormort/time-series-forecast" class="card" target="_blank" rel="noopener noreferrer">
+                    <div class="card-icon">📈</div>
                     <div class="card-content">
                         <h2>時間序列預測</h2>
-                        <p>根據歷史資料，產生各種預測數據並繪製趨勢圖。</p>
+                        <p>根據歷史資料，透過演算法產生各種預測數據並繪製未來趨勢圖。</p>
                         <span class="card-tag tag-tool">Data Tool</span>
                     </div>
                 </a>
-                <!-- Card 9 -->
-                <a href="https://huggingface.co/spaces/cormort/fund-month-report" class="card" target="_blank"
-                    rel="noopener noreferrer">
+
+                <a href="https://huggingface.co/spaces/cormort/fund-month-report" class="card" target="_blank" rel="noopener noreferrer">
                     <div class="card-icon">📱</div>
                     <div class="card-content">
                         <h2>預算執行視覺化儀表板</h2>
-                        <p>根據特種基金會計，產生管理性報表及視覺化儀表板。</p>
+                        <p>根據特種基金會計資料，自動產生管理性報表及視覺化儀表板。</p>
                         <span class="card-tag tag-tool">Data Tool</span>
                     </div>
                 </a>
-                <!-- Card 10 -->
-                <a href="https://cormort.github.io/html_generator/" class="card" target="_blank"
-                    rel="noopener noreferrer">
-                    <div class="card-icon">📱</div>
+
+                <a href="https://cormort.github.io/html_generator/" class="card" target="_blank" rel="noopener noreferrer">
+                    <div class="card-icon">⚡</div>
                     <div class="card-content">
-                        <h2>html產生器</h2>
-                        <p>貼上html原始碼，可以進行修正及下載html</p>
+                        <h2>HTML 產生器</h2>
+                        <p>貼上 HTML 原始碼，即可在線上進行即時修正預覽並下載更新後的檔案。</p>
                         <span class="card-tag tag-tool">Data Tool</span>
                     </div>
                 </a>
