@@ -9,20 +9,13 @@
     <style>
         /* --- 變數與基礎設定 --- */
         :root {
-            /* --- 品牌色保持 --- */
-            --primary-color: #2563eb;
+            var(--primary-color): #2563eb;
             --secondary-color: #7c3aed;
-
-            /* --- 背景色調整為豆沙綠 --- */
-            --bg-color: #EDF2EB; /* 主體淡豆沙綠 */
-
-            /* --- 內容與文字 --- */
+            --bg-color: #EDF2EB;
             --text-main: #1e293b;
             --text-muted: #64748b;
-
-            /* --- 卡片調整 --- */
-            --card-bg: rgba(255, 255, 255, 0.6); /* 降低亮度，白色透明 */
-            --card-border: rgba(169, 186, 157, 0.2); /* 淡灰綠透明邊框 */
+            --card-bg: rgba(255, 255, 255, 0.6);
+            --card-border: rgba(169, 186, 157, 0.2);
             --transition-speed: 0.3s;
         }
 
@@ -33,7 +26,6 @@
         }
 
         body {
-            /* 支援英文 Inter 與繁體中文 Noto Sans */
             font-family: 'Inter', 'Noto Sans TC', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
@@ -45,7 +37,7 @@
             flex-direction: column;
         }
 
-        /* --- 動態背景光暈 (調整為綠色系) --- */
+        /* --- 動態背景光暈 --- */
         .background-animation {
             position: fixed;
             top: 0;
@@ -54,45 +46,20 @@
             height: 100vh;
             z-index: -1;
             overflow: hidden;
-            /* 綠色系漸層背景 */
             background: linear-gradient(135deg, #F0F5EC 0%, #E2E8D8 100%);
         }
 
         .blob {
             position: absolute;
-            filter: blur(100px); /* 增加模糊，效果更柔和 */
-            opacity: 0.5; /* 降低不透明度 */
+            filter: blur(100px);
+            opacity: 0.5;
             border-radius: 50%;
             animation: float 10s infinite ease-in-out alternate;
         }
 
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: #C5D0BA; /* 豆沙綠 blob 1 */
-            top: -10%;
-            left: -10%;
-            animation-delay: 0s;
-        }
-
-        .blob-2 {
-            width: 500px;
-            height: 500px;
-            background: #DDE5D2; /* 淡豆沙綠 blob 2 */
-            bottom: -20%;
-            right: -10%;
-            animation-delay: -2s;
-        }
-
-        .blob-3 {
-            width: 300px;
-            height: 300px;
-            background: #EDF2EB; /* 極淡豆沙綠 blob 3 */
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            animation-delay: -4s;
-        }
+        .blob-1 { width: 400px; height: 400px; background: #C5D0BA; top: -10%; left: -10%; animation-delay: 0s; }
+        .blob-2 { width: 500px; height: 500px; background: #DDE5D2; bottom: -20%; right: -10%; animation-delay: -2s; }
+        .blob-3 { width: 300px; height: 300px; background: #EDF2EB; top: 40%; left: 50%; transform: translate(-50%, -50%); animation-delay: -4s; }
 
         @keyframes float {
             0% { transform: translate(0, 0) scale(1); }
@@ -109,17 +76,16 @@
             flex-direction: column;
         }
 
-        /* --- 頁首設計 --- */
         header {
             text-align: center;
-            padding: 5rem 0 3rem; /* 增加頂部邊距 */
+            padding: 5rem 0 3rem;
         }
 
         .header-content h1 {
             font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -0.5px;
@@ -131,7 +97,6 @@
             font-weight: 500;
         }
 
-        /* --- 響應式網格 --- */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -139,7 +104,7 @@
             padding-bottom: 4rem;
         }
 
-        /* --- 卡片設計 (Glassmorphism, 調整為綠色系) --- */
+        /* --- 卡片設計 --- */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(12px);
@@ -160,7 +125,7 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            border-color: rgba(169, 186, 157, 0.4); /* 懸停時邊框更深 */
+            border-color: rgba(169, 186, 157, 0.4);
         }
 
         .card-icon {
@@ -184,18 +149,25 @@
             font-weight: 700;
             margin-bottom: 0.75rem;
             color: var(--text-main);
+            padding-right: 2rem; /* 預留空間給點擊徽章 */
         }
 
         .card-content p {
             font-size: 0.95rem;
             color: var(--text-muted);
             margin-bottom: 1.5rem;
-            flex: 1; /* 讓文字區塊自動撐開，讓下方的 tag 對齊底部 */
+            flex: 1;
         }
 
-        /* --- 標籤設計 --- */
+        /* --- 卡片底部 (標籤與更新時間) --- */
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
         .card-tag {
-            align-self: flex-start;
             padding: 0.25rem 0.75rem;
             border-radius: 9999px;
             font-size: 0.75rem;
@@ -204,39 +176,46 @@
             letter-spacing: 0.5px;
         }
 
-        .tag-api {
-            background-color: #f3e8ff;
-            color: #7e22ce;
+        .tag-api { background-color: #f3e8ff; color: #7e22ce; }
+        .tag-tool { background-color: #e0f2fe; color: #0369a1; }
+        .tag-system { background-color: #dcfce3; color: #15803d; }
+
+        .update-time {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            font-weight: 500;
         }
 
-        .tag-tool {
-            background-color: #e0f2fe;
-            color: #0369a1;
+        /* --- 點擊次數徽章 --- */
+        .click-badge {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--card-border);
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
         }
 
-        .tag-system {
-            background-color: #dcfce3;
-            color: #15803d;
-        }
-
-        /* --- 頁尾設計 (調整邊框) --- */
+        /* --- 頁尾設計 --- */
         footer {
             text-align: center;
             padding: 2rem 0;
             color: var(--text-muted);
             font-size: 0.875rem;
-            border-top: 1px solid rgba(169, 186, 157, 0.1); /* 淡灰綠邊框 */
+            border-top: 1px solid rgba(169, 186, 157, 0.1);
             margin-top: auto;
         }
 
-        /* --- 手機版微調 --- */
         @media (max-width: 640px) {
-            .header-content h1 {
-                font-size: 2rem;
-            }
-            .grid-container {
-                grid-template-columns: 1fr;
-            }
+            .header-content h1 { font-size: 2rem; }
+            .grid-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -257,121 +236,174 @@
         </header>
 
         <main>
-            <div class="grid-container">
+            <div class="grid-container" id="card-container">
                 
-                <a href="https://cormort.github.io/word-table-extractor/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/word-table-extractor/" class="card" target="_blank" rel="noopener noreferrer" data-id="docx-extractor">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📖</div>
                     <div class="card-content">
                         <h2>Docx表格提取合併器</h2>
                         <p>上傳多個Docx檔案，提取表格進行合併。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-05-20</span>
+                        </div>
                     </div>
                 </a>
                 
-                <a href="https://cormort.github.io/pdfviewer_v2/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/pdfviewer_v2/" class="card" target="_blank" rel="noopener noreferrer" data-id="pdf-viewer">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📖</div>
                     <div class="card-content">
                         <h2>模擬題、說帖查找神器</h2>
                         <p>上傳多個 PDF 檔案，跨檔查找特定關鍵字的頁面，加速資料盤點。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-05-22</span>
+                        </div>
                     </div>
                 </a>
                 
-                <a href="https://cormort.github.io/fund-financial-statement/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/fund-financial-statement/" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-financial">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📖</div>
                     <div class="card-content">
-                        <h2>財務資訊價值推進器 </h2>
+                        <h2>財務資訊價值推進器</h2>
                         <p>上傳特種基金10年度JSON檔案，產生視覺化圖表及簡易查詢功能。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-05-25</span>
+                        </div>
                     </div>
                 </a>
-                <a href="https://huggingface.co/spaces/cormort/fund-law-api" class="card" target="_blank" rel="noopener noreferrer">
+
+                <a href="https://huggingface.co/spaces/cormort/fund-law-api" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-law-api">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">🧠</div>
                     <div class="card-content">
                         <h2>法規資料庫 API</h2>
                         <p>基於 HuggingFace Space 的法規檢索與問答服務 API 介面，支援智能語意搜尋。</p>
-                        <span class="card-tag tag-api">AI & API</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-api">AI & API</span>
+                            <span class="update-time">更新: 2026-04-15</span>
+                        </div>
                     </div>
                 </a>
 
-                <a href="https://cormort.github.io/excel_merge/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/excel_merge/" class="card" target="_blank" rel="noopener noreferrer" data-id="excel-merge">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📊</div>
                     <div class="card-content">
                         <h2>Excel 整合處理平台</h2>
                         <p>強大的檢視與合併工具，支援多檔動態彙總與樞紐分析，並能快速匯出報表。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-05-18</span>
+                        </div>
                     </div>
                 </a>
 
-                <a href="https://cormort.github.io/multi-xlsx_merge/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/multi-xlsx_merge/" class="card" target="_blank" rel="noopener noreferrer" data-id="multi-xlsx-merge">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📑</div>
                     <div class="card-content">
                         <h2>Multi XLSX Merge</h2>
                         <p>專門設計用於批次、大批量合併多個 Excel 試算表，自動化繁瑣的資料整併流程。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-03-30</span>
+                        </div>
                     </div>
                 </a>
 
-                <a href="https://cormort.github.io/local_gov_budget/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/local_gov_budget/" class="card" target="_blank" rel="noopener noreferrer" data-id="local-gov-budget">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📑</div>
                     <div class="card-content">
                         <h2>政府預算查填匯總平臺</h2>
                         <p>專門設計用於查填及彙總多個機關資料，可彙總並進行簡易查詢。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-02-14</span>
+                        </div>
                     </div>
                 </a>
                 
-                <a href="https://cormort.github.io/budget-opinion-reviewer/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/budget-opinion-reviewer/" class="card" target="_blank" rel="noopener noreferrer" data-id="budget-opinion">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📋</div>
                     <div class="card-content">
                         <h2>預算審查意見檢誤系統</h2>
                         <p>自動判定並過濾預算意見文字，高亮潛在錯誤，提升審核效率。</p>
-                        <span class="card-tag tag-system">System</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-system">System</span>
+                            <span class="update-time">更新: 2026-05-01</span>
+                        </div>
                     </div>
                 </a>
 
-                <a href="https://cormort.github.io/excel-validator/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/excel-validator/" class="card" target="_blank" rel="noopener noreferrer" data-id="excel-validator">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">✅</div>
                     <div class="card-content">
                         <h2>Excel Validator</h2>
                         <p>資料驗證與欄位格式檢查工具，確保上傳的 Excel 符合系統規格。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-04-20</span>
+                        </div>
                     </div>
                 </a>
                 
-                <a href="https://huggingface.co/spaces/cormort/tw_statistic_map" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://huggingface.co/spaces/cormort/tw_statistic_map" class="card" target="_blank" rel="noopener noreferrer" data-id="tw-map">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">🗺️</div>
                     <div class="card-content">
                         <h2>臺灣 Open Data 視覺化</h2>
                         <p>上傳具臺灣行政區欄位的資料，一鍵產生互動式統計地圖儀表板。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-03-15</span>
+                        </div>
                     </div>
                 </a>
 
-                <a href="https://huggingface.co/spaces/cormort/time-series-forecast" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://huggingface.co/spaces/cormort/time-series-forecast" class="card" target="_blank" rel="noopener noreferrer" data-id="time-series">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📈</div>
                     <div class="card-content">
                         <h2>時間序列預測</h2>
                         <p>根據歷史資料，透過演算法產生各種預測數據並繪製未來趨勢圖。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-05-10</span>
+                        </div>
                     </div>
                 </a>
 
-                <a href="https://huggingface.co/spaces/cormort/fund-month-report" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://huggingface.co/spaces/cormort/fund-month-report" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-month-report">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">📱</div>
                     <div class="card-content">
                         <h2>預算執行視覺化儀表板</h2>
                         <p>根據特種基金會計資料，自動產生管理性報表及視覺化儀表板。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-05-27</span>
+                        </div>
                     </div>
                 </a>
 
-                <a href="https://cormort.github.io/html_generator/" class="card" target="_blank" rel="noopener noreferrer">
+                <a href="https://cormort.github.io/html_generator/" class="card" target="_blank" rel="noopener noreferrer" data-id="html-generator">
+                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
                     <div class="card-icon">⚡</div>
                     <div class="card-content">
                         <h2>HTML 產生器</h2>
                         <p>貼上 HTML 原始碼，即可在線上進行即時修正預覽並下載更新後的檔案。</p>
-                        <span class="card-tag tag-tool">Data Tool</span>
+                        <div class="card-footer">
+                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="update-time">更新: 2026-01-10</span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -381,6 +413,42 @@
             <p>&copy; 2026 中央政府特種基金AI智能分析平台. All rights reserved.</p>
         </footer>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('card-container');
+            const cards = Array.from(container.querySelectorAll('.card'));
+
+            // 1. 初始化讀取 LocalStorage 中的點擊次數
+            cards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                const clicks = parseInt(localStorage.getItem(`project_clicks_${id}`) || '0', 10);
+                
+                // 將點擊數寫入 DOM 屬性與視覺徽章
+                card.setAttribute('data-clicks', clicks);
+                card.querySelector('.click-count').textContent = clicks;
+
+                // 2. 綁定點擊事件（點擊後增加次數並存入 LocalStorage）
+                card.addEventListener('click', () => {
+                    let currentClicks = parseInt(localStorage.getItem(`project_clicks_${id}`) || '0', 10);
+                    currentClicks++;
+                    localStorage.setItem(`project_clicks_${id}`, currentClicks);
+                    // 註：點擊後數字會在背景增加，下次載入網頁時才會重新排序，避免使用者點擊瞬間卡片移位
+                });
+            });
+
+            // 3. 根據點擊次數由大到小排序卡片
+            cards.sort((a, b) => {
+                const clicksA = parseInt(a.getAttribute('data-clicks'), 10);
+                const clicksB = parseInt(b.getAttribute('data-clicks'), 10);
+                return clicksB - clicksA;
+            });
+
+            // 4. 清空容器並依序重新插入排序後的卡片
+            container.innerHTML = '';
+            cards.forEach(card => container.appendChild(card));
+        });
+    </script>
 </body>
 
 </html>
