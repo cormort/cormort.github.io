@@ -9,7 +9,7 @@
     <style>
         /* --- 變數與基礎設定 --- */
         :root {
-            var(--primary-color): #2563eb;
+            --primary-color: #2563eb;
             --secondary-color: #7c3aed;
             --bg-color: #EDF2EB;
             --text-main: #1e293b;
@@ -128,9 +128,11 @@
             border-color: rgba(169, 186, 157, 0.4);
         }
 
+        /* 預留空間給左上角釘選、右上角徽章 */
         .card-icon {
             font-size: 2.5rem;
             margin-bottom: 1rem;
+            margin-top: 1rem; /* 避免與圖示重疊 */
             transition: transform var(--transition-speed) ease;
         }
 
@@ -149,7 +151,6 @@
             font-weight: 700;
             margin-bottom: 0.75rem;
             color: var(--text-main);
-            padding-right: 2rem; /* 預留空間給點擊徽章 */
         }
 
         .card-content p {
@@ -159,7 +160,6 @@
             flex: 1;
         }
 
-        /* --- 卡片底部 (標籤與更新時間) --- */
         .card-footer {
             display: flex;
             justify-content: space-between;
@@ -186,10 +186,10 @@
             font-weight: 500;
         }
 
-        /* --- 點擊次數徽章 --- */
+        /* --- 點擊次數徽章 (右上) --- */
         .click-badge {
             position: absolute;
-            top: 1.5rem;
+            top: 1rem;
             right: 1.5rem;
             background: rgba(255, 255, 255, 0.8);
             border: 1px solid var(--card-border);
@@ -200,7 +200,40 @@
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 0.25rem;
+        }
+
+        /* --- 釘選按鈕 (左上) --- */
+        .pin-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1.5rem;
+            font-size: 1.2rem;
+            cursor: pointer;
+            z-index: 10;
+            opacity: 0.3; /* 未釘選時半透明 */
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid var(--card-border);
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .pin-btn:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+
+        /* 釘選啟動狀態 */
+        .pin-btn.active {
+            opacity: 1;
+            background: #fef08a; /* 亮黃色背景提示已釘選 */
+            border-color: #facc15;
+            box-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
         }
 
         /* --- 頁尾設計 --- */
@@ -237,9 +270,9 @@
 
         <main>
             <div class="grid-container" id="card-container">
-                
                 <a href="https://cormort.github.io/word-table-extractor/" class="card" target="_blank" rel="noopener noreferrer" data-id="docx-extractor">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📖</div>
                     <div class="card-content">
                         <h2>Docx表格提取合併器</h2>
@@ -252,7 +285,8 @@
                 </a>
                 
                 <a href="https://cormort.github.io/pdfviewer_v2/" class="card" target="_blank" rel="noopener noreferrer" data-id="pdf-viewer">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📖</div>
                     <div class="card-content">
                         <h2>模擬題、說帖查找神器</h2>
@@ -265,7 +299,8 @@
                 </a>
                 
                 <a href="https://cormort.github.io/fund-financial-statement/" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-financial">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📖</div>
                     <div class="card-content">
                         <h2>財務資訊價值推進器</h2>
@@ -278,11 +313,12 @@
                 </a>
 
                 <a href="https://huggingface.co/spaces/cormort/fund-law-api" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-law-api">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">🧠</div>
                     <div class="card-content">
                         <h2>法規資料庫 API</h2>
-                        <p>基於 HuggingFace Space 的法規檢索與問答服務 API 介面，支援智能語意搜尋。</p>
+                        <p>基於 Hugging Face 的法規檢索與問答服務 API 介面，支援智能語意搜尋。</p>
                         <div class="card-footer">
                             <span class="card-tag tag-api">AI & API</span>
                             <span class="update-time">更新: 2026-04-15</span>
@@ -291,7 +327,8 @@
                 </a>
 
                 <a href="https://cormort.github.io/excel_merge/" class="card" target="_blank" rel="noopener noreferrer" data-id="excel-merge">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📊</div>
                     <div class="card-content">
                         <h2>Excel 整合處理平台</h2>
@@ -304,7 +341,8 @@
                 </a>
 
                 <a href="https://cormort.github.io/multi-xlsx_merge/" class="card" target="_blank" rel="noopener noreferrer" data-id="multi-xlsx-merge">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📑</div>
                     <div class="card-content">
                         <h2>Multi XLSX Merge</h2>
@@ -317,7 +355,8 @@
                 </a>
 
                 <a href="https://cormort.github.io/local_gov_budget/" class="card" target="_blank" rel="noopener noreferrer" data-id="local-gov-budget">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📑</div>
                     <div class="card-content">
                         <h2>政府預算查填匯總平臺</h2>
@@ -330,7 +369,8 @@
                 </a>
                 
                 <a href="https://cormort.github.io/budget-opinion-reviewer/" class="card" target="_blank" rel="noopener noreferrer" data-id="budget-opinion">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📋</div>
                     <div class="card-content">
                         <h2>預算審查意見檢誤系統</h2>
@@ -343,7 +383,8 @@
                 </a>
 
                 <a href="https://cormort.github.io/excel-validator/" class="card" target="_blank" rel="noopener noreferrer" data-id="excel-validator">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">✅</div>
                     <div class="card-content">
                         <h2>Excel Validator</h2>
@@ -356,7 +397,8 @@
                 </a>
                 
                 <a href="https://huggingface.co/spaces/cormort/tw_statistic_map" class="card" target="_blank" rel="noopener noreferrer" data-id="tw-map">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">🗺️</div>
                     <div class="card-content">
                         <h2>臺灣 Open Data 視覺化</h2>
@@ -369,7 +411,8 @@
                 </a>
 
                 <a href="https://huggingface.co/spaces/cormort/time-series-forecast" class="card" target="_blank" rel="noopener noreferrer" data-id="time-series">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📈</div>
                     <div class="card-content">
                         <h2>時間序列預測</h2>
@@ -382,7 +425,8 @@
                 </a>
 
                 <a href="https://huggingface.co/spaces/cormort/fund-month-report" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-month-report">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">📱</div>
                     <div class="card-content">
                         <h2>預算執行視覺化儀表板</h2>
@@ -395,7 +439,8 @@
                 </a>
 
                 <a href="https://cormort.github.io/html_generator/" class="card" target="_blank" rel="noopener noreferrer" data-id="html-generator">
-                    <div class="click-badge">🔥 <span class="click-count">0</span></div>
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
                     <div class="card-icon">⚡</div>
                     <div class="card-content">
                         <h2>HTML 產生器</h2>
@@ -415,38 +460,124 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const container = document.getElementById('card-container');
-            const cards = Array.from(container.querySelectorAll('.card'));
+            const originalCards = Array.from(container.querySelectorAll('.card'));
+            const githubUser = 'cormort';
 
-            // 1. 初始化讀取 LocalStorage 中的點擊次數
-            cards.forEach(card => {
+            const repoMap = {
+                'docx-extractor': 'word-table-extractor',
+                'pdf-viewer': 'pdfviewer_v2',
+                'fund-financial': 'fund-financial-statement',
+                'fund-law-api': null, 
+                'excel-merge': 'excel_merge',
+                'multi-xlsx-merge': 'multi-xlsx_merge',
+                'local-gov-budget': 'local_gov_budget',
+                'budget-opinion': 'budget-opinion-reviewer',
+                'excel-validator': 'excel-validator',
+                'tw-map': null, 
+                'time-series': null, 
+                'fund-month-report': null, 
+                'html-generator': 'html_generator'
+            };
+
+            // 1. 初始化資料結構與讀取釘選名單
+            let cardDataList = [];
+            let pinnedItems = JSON.parse(localStorage.getItem('my_pinned_projects')) || [];
+
+            // 顯示載入中提示
+            originalCards.forEach(card => card.style.opacity = '0.5');
+
+            // 2. 抓取 GitHub 資料
+            for (let card of originalCards) {
                 const id = card.getAttribute('data-id');
-                const clicks = parseInt(localStorage.getItem(`project_clicks_${id}`) || '0', 10);
+                const repoName = repoMap[id];
+                let popularityScore = 0;
+                let displayCount = "N/A";
+
+                if (repoName) {
+                    try {
+                        const response = await fetch(`https://api.github.com/repos/${githubUser}/${repoName}`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            popularityScore = data.stargazers_count + data.watchers_count;
+                            displayCount = popularityScore.toString();
+                        } else {
+                            displayCount = "-";
+                        }
+                    } catch (error) {
+                        displayCount = "Err";
+                    }
+                } else {
+                    popularityScore = -1; // HF 專案預設排在後面
+                    displayCount = "HF 專案";
+                }
+
+                // 更新徽章文字
+                const badgeText = repoName ? `⭐ ${displayCount}` : `🚀 ${displayCount}`;
+                card.querySelector('.click-badge').innerHTML = badgeText;
+
+                // 綁定釘選按鈕事件
+                const pinBtn = card.querySelector('.pin-btn');
                 
-                // 將點擊數寫入 DOM 屬性與視覺徽章
-                card.setAttribute('data-clicks', clicks);
-                card.querySelector('.click-count').textContent = clicks;
+                pinBtn.addEventListener('click', (e) => {
+                    e.preventDefault();   // 阻止 <a> 標籤跳轉
+                    e.stopPropagation();  // 阻止事件冒泡
 
-                // 2. 綁定點擊事件（點擊後增加次數並存入 LocalStorage）
-                card.addEventListener('click', () => {
-                    let currentClicks = parseInt(localStorage.getItem(`project_clicks_${id}`) || '0', 10);
-                    currentClicks++;
-                    localStorage.setItem(`project_clicks_${id}`, currentClicks);
-                    // 註：點擊後數字會在背景增加，下次載入網頁時才會重新排序，避免使用者點擊瞬間卡片移位
+                    if (pinnedItems.includes(id)) {
+                        // 解除釘選
+                        pinnedItems = pinnedItems.filter(item => item !== id);
+                    } else {
+                        // 新增釘選
+                        pinnedItems.push(id);
+                    }
+                    
+                    // 存回 LocalStorage 並重新渲染
+                    localStorage.setItem('my_pinned_projects', JSON.stringify(pinnedItems));
+                    renderCards();
                 });
-            });
 
-            // 3. 根據點擊次數由大到小排序卡片
-            cards.sort((a, b) => {
-                const clicksA = parseInt(a.getAttribute('data-clicks'), 10);
-                const clicksB = parseInt(b.getAttribute('data-clicks'), 10);
-                return clicksB - clicksA;
-            });
+                cardDataList.push({
+                    id: id,
+                    element: card,
+                    score: popularityScore
+                });
+            }
 
-            // 4. 清空容器並依序重新插入排序後的卡片
-            container.innerHTML = '';
-            cards.forEach(card => container.appendChild(card));
+            // 3. 獨立出渲染排序函數，讓釘選後可以即時更新畫面
+            function renderCards() {
+                // 排序邏輯：有釘選的排前面，沒釘選的靠 GitHub 分數排
+                cardDataList.sort((a, b) => {
+                    const aIsPinned = pinnedItems.includes(a.id);
+                    const bIsPinned = pinnedItems.includes(b.id);
+
+                    if (aIsPinned && !bIsPinned) return -1;
+                    if (!aIsPinned && bIsPinned) return 1;
+                    
+                    // 若兩者都釘選或都沒釘選，則依照分數排序
+                    return b.score - a.score;
+                });
+
+                // 更新 DOM
+                container.innerHTML = '';
+                cardDataList.forEach(item => {
+                    const cardElement = item.element;
+                    const pinBtn = cardElement.querySelector('.pin-btn');
+                    
+                    // 根據釘選狀態更新 UI 樣式
+                    if (pinnedItems.includes(item.id)) {
+                        pinBtn.classList.add('active');
+                    } else {
+                        pinBtn.classList.remove('active');
+                    }
+
+                    cardElement.style.opacity = '1';
+                    container.appendChild(cardElement);
+                });
+            }
+
+            // 初始執行一次排序與渲染
+            renderCards();
         });
     </script>
 </body>
