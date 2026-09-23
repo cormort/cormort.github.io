@@ -97,6 +97,19 @@
             font-weight: 500;
         }
 
+
+        #sort-toggle {
+            margin-top: 1.2rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 999px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -274,6 +287,7 @@
             <div class="header-content">
                 <h1>中央政府特種基金AI智能分析平台</h1>
                 <p class="subtitle">整合式專案入口與工具服務</p>
+                <button id="sort-toggle" type="button"></button>
             </div>
         </header>
 
@@ -582,6 +596,14 @@
             // 1. 初始化資料結構與讀取釘選名單
             let cardDataList = [];
             let pinnedItems = JSON.parse(localStorage.getItem('my_pinned_projects')) || [];
+            let sortBy = localStorage.getItem('my_sort_by') === 'score' ? 'score' : 'date';
+
+            const sortToggle = document.getElementById('sort-toggle');
+            sortToggle.addEventListener('click', () => {
+                sortBy = sortBy === 'date' ? 'score' : 'date';
+                localStorage.setItem('my_sort_by', sortBy);
+                renderCards();
+            });
 
             // 顯示載入中提示
             originalCards.forEach(card => card.style.opacity = '0.5');
@@ -638,13 +660,17 @@
                 cardDataList.push({
                     id: id,
                     element: card,
-                    score: popularityScore
+                    score: popularityScore,
+                    // ponytail: 直接讀卡片上已有的「更新: YYYY-MM-DD」字串，ISO 格式可直接字串比大小
+                    date: (card.querySelector('.update-time')?.textContent.match(/\d{4}-\d{2}-\d{2}/) || [''])[0]
                 });
             }
 
             // 3. 獨立出渲染排序函數，讓釘選後可以即時更新畫面
             function renderCards() {
-                // 排序邏輯：有釘選的排前面，沒釘選的靠 GitHub 分數排
+                sortToggle.textContent = sortBy === 'date' ? '🕒 依更新時間' : '⭐ 依星數';
+
+                // 排序邏輯：有釘選的排前面，其餘依更新時間新到舊
                 cardDataList.sort((a, b) => {
                     const aIsPinned = pinnedItems.includes(a.id);
                     const bIsPinned = pinnedItems.includes(b.id);
@@ -652,8 +678,13 @@
                     if (aIsPinned && !bIsPinned) return -1;
                     if (!aIsPinned && bIsPinned) return 1;
                     
-                    // 若兩者都釘選或都沒釘選，則依照分數排序
-                    return b.score - a.score;
+                    // 若兩者都釘選或都沒釘選，則依目前選擇的排序方式，另一項當次序
+                    if (sortBy === 'date') {
+                        if (a.date !== b.date) return b.date.localeCompare(a.date);
+                        return b.score - a.score;
+                    }
+                    if (a.score !== b.score) return b.score - a.score;
+                    return b.date.localeCompare(a.date);
                 });
 
                 // 更新 DOM
