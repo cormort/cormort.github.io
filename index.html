@@ -231,8 +231,11 @@
         }
 
         .tag-api { background-color: #f3e8ff; color: #7e22ce; }
-        .tag-tool { background-color: #e0f2fe; color: #0369a1; }
         .tag-system { background-color: #dcfce3; color: #15803d; }
+        .tag-parser { background-color: #ffedd5; color: #c2410c; }
+        .tag-pdf { background-color: #fee2e2; color: #b91c1c; }
+        .tag-excel { background-color: #e0f2fe; color: #0369a1; }
+        .tag-viz { background-color: #fef9c3; color: #a16207; }
 
         .update-time {
             font-size: 0.75rem;
@@ -336,9 +339,12 @@
             <div class="filter-bar">
                 <input id="project-search" type="search" placeholder="🔍 搜尋專案名稱或說明…">
                 <button class="filter-chip active" type="button" data-tag="">全部</button>
-                <button class="filter-chip" type="button" data-tag="tag-tool">Data Tool</button>
+                <button class="filter-chip" type="button" data-tag="tag-parser">預算解析</button>
+                <button class="filter-chip" type="button" data-tag="tag-pdf">PDF 工具</button>
+                <button class="filter-chip" type="button" data-tag="tag-excel">Excel / 文件</button>
+                <button class="filter-chip" type="button" data-tag="tag-viz">視覺化分析</button>
+                <button class="filter-chip" type="button" data-tag="tag-system">系統平台</button>
                 <button class="filter-chip" type="button" data-tag="tag-api">AI & API</button>
-                <button class="filter-chip" type="button" data-tag="tag-system">System</button>
                 <button class="filter-chip" type="button" data-tag="pinned">📌 已釘選</button>
             </div>
             <p id="no-result" hidden>找不到符合的專案</p>
@@ -351,7 +357,7 @@
                         <h2>Docx表格提取合併器</h2>
                         <p>上傳多個Docx檔案，提取表格進行合併。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-excel">Excel / 文件</span>
                             <span class="update-time">更新: 2026-05-20</span>
                         </div>
                     </div>
@@ -365,7 +371,7 @@
                         <h2>模擬題、說帖查找神器</h2>
                         <p>上傳多個 PDF 檔案，跨檔查找特定關鍵字的頁面，加速資料盤點。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-pdf">PDF 工具</span>
                             <span class="update-time">更新: 2026-05-22</span>
                         </div>
                     </div>
@@ -379,7 +385,7 @@
                         <h2>財務資訊價值推進器</h2>
                         <p>上傳特種基金10年度JSON檔案，產生視覺化圖表及簡易查詢功能。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-viz">視覺化分析</span>
                             <span class="update-time">更新: 2026-05-25</span>
                         </div>
                     </div>
@@ -407,7 +413,7 @@
                         <h2>Excel貼表神器</h2>
                         <p>一次匯入大量excel檔案，選擇指定工作表貼上，節省開啟檔案複製貼上等重複性作業，適用於相同欄位的調查表。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-excel">Excel / 文件</span>
                             <span class="update-time">更新: 2026-05-18</span>
                         </div>
                     </div>
@@ -421,7 +427,7 @@
                         <h2>XLSX合併工具</h2>
                         <p>用於批次、大批量合併多個版型(欄及列需完全相同) Excel 試算表，自動化繁瑣的資料整併流程。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-excel">Excel / 文件</span>
                             <span class="update-time">更新: 2026-03-30</span>
                         </div>
                     </div>
@@ -435,7 +441,7 @@
                         <h2>政府預算查填匯總平臺</h2>
                         <p>專門設計用於查填及彙總多個機關資料，可彙總並進行簡易查詢。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-system">系統平台</span>
                             <span class="update-time">更新: 2026-02-14</span>
                         </div>
                     </div>
@@ -449,7 +455,7 @@
                         <h2>預算審查意見檢誤系統(含docx金額驗算)</h2>
                         <p>自動判定並過濾預算意見文字，高亮潛在錯誤，提升審核效率。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-system">System</span>
+                            <span class="card-tag tag-system">系統平台</span>
                             <span class="update-time">更新: 2026-05-01</span>
                         </div>
                     </div>
@@ -463,7 +469,7 @@
                         <h2>Excel驗算神器</h2>
                         <p>快速驗算excel欄、列合計數正確性，支援跳欄、列或連續選取(僅加、減)</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-excel">Excel / 文件</span>
                             <span class="update-time">更新: 2026-04-20</span>
                         </div>
                     </div>
@@ -477,7 +483,7 @@
                         <h2>臺灣 Open Data 視覺化</h2>
                         <p>上傳具臺灣行政區欄位的資料，一鍵產生互動式統計地圖儀表板。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-viz">視覺化分析</span>
                             <span class="update-time">更新: 2026-03-15</span>
                         </div>
                     </div>
@@ -491,7 +497,7 @@
                         <h2>時間序列預測</h2>
                         <p>根據歷史資料，透過演算法產生各種預測數據並繪製未來趨勢圖。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-viz">視覺化分析</span>
                             <span class="update-time">更新: 2026-05-10</span>
                         </div>
                     </div>
@@ -505,7 +511,7 @@
                         <h2>預算執行視覺化儀表板</h2>
                         <p>根據特種基金會計資料，自動產生管理性報表及視覺化儀表板。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-viz">視覺化分析</span>
                             <span class="update-time">更新: 2026-05-27</span>
                         </div>
                     </div>
@@ -519,7 +525,7 @@
                         <h2>HTML 產生器</h2>
                         <p>貼上 HTML 原始碼，即可在線上進行即時修正預覽並下載更新後的檔案。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-excel">Excel / 文件</span>
                             <span class="update-time">更新: 2026-01-10</span>
                         </div>
                     </div>
@@ -533,7 +539,7 @@
                         <h2>地方政府單位預算pdf預算解析器（demo）</h2>
                         <p>解析地方政府單位預算書pdf檔案，轉換為結構化資料以利後續彙整與查詢。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-parser">預算解析</span>
                             <span class="update-time">更新: 2026-07-31</span>
                         </div>
                     </div>
@@ -547,7 +553,7 @@
                         <h2>中央政府單位預算pdf解析器（demo）</h2>
                         <p>解析中央政府單位預算書pdf內容，抽取科目與金額並輸出結構化表格。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-parser">預算解析</span>
                             <span class="update-time">更新: 2026-07-31</span>
                         </div>
                     </div>
@@ -561,7 +567,7 @@
                         <h2>農業特別收入基金預算PDF解析器（demo）</h2>
                         <p>直接從農業特別收入基預算書PDF擷取表格資料，免手動繕打即可取得可分析資料。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-parser">預算解析</span>
                             <span class="update-time">更新: 2026-07-31</span>
                         </div>
                     </div>
@@ -575,7 +581,7 @@
                         <h2>PDF 資料列分頁調整</h2>
                         <p>在瀏覽器裡直接調整 PDF 表格的分頁位置與列高，保留原本的天地線與版面，可直接列印成 PDF。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-pdf">PDF 工具</span>
                             <span class="update-time">更新: 2026-08-16</span>
                         </div>
                     </div>
@@ -589,7 +595,7 @@
                         <h2>Excel 轉對開表</h2>
                         <p>把固資成本效益分析表這類 Excel 轉成天地線固定的奇偶頁對開表，可逐列調整列高後直接列印成 PDF。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-excel">Excel / 文件</span>
                             <span class="update-time">更新: 2026-08-16</span>
                         </div>
                     </div>
@@ -602,7 +608,7 @@
                         <h2>中央銀行預算書PDF解析器</h2>
                         <p>還原中央銀行預算書 PDF 的亂碼文字，抽出各預算表為可篩選、可匯出 xlsx 的表格。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-parser">預算解析</span>
                             <span class="update-time">更新: 2026-09-23</span>
                         </div>
                     </div>
@@ -616,7 +622,7 @@
                         <h2>PDF 比對工具</h2>
                         <p>在瀏覽器內直接比對兩份 PDF 的差異，可依文字、字元或外觀三種模式檢視。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-tool">Data Tool</span>
+                            <span class="card-tag tag-pdf">PDF 工具</span>
                             <span class="update-time">更新: 2026-09-24</span>
                         </div>
                     </div>
