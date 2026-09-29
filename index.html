@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#EDF2EB">
+    <link rel="apple-touch-icon" href="icon-192.png">
     <title>中央政府特種基金AI智能分析平台</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -294,6 +297,36 @@
         }
 
         /* --- 頁尾設計 --- */
+        /* --- 新版本通知 --- */
+        #update-banner {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 999px;
+            background: var(--text-main);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            font-size: 0.95rem;
+        }
+
+        #update-banner[hidden] { display: none; }
+
+        #update-banner button {
+            padding: 0.35rem 1rem;
+            border: none;
+            border-radius: 999px;
+            background: #fff;
+            color: var(--text-main);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         footer {
             text-align: center;
             padding: 2rem 0;
@@ -804,6 +837,43 @@
             // 初始執行一次排序與渲染
             renderCards();
         });
+    </script>
+    <div id="update-banner" hidden>
+        <span>有新版本可用</span>
+        <button type="button" id="update-btn">立即更新</button>
+    </div>
+
+    <script>
+        // PWA：偵測到新版 service worker 時顯示更新提示
+        if ('serviceWorker' in navigator) {
+            let reloading = false;
+            navigator.serviceWorker.register('sw.js').then(reg => {
+                const banner = document.getElementById('update-banner');
+                const showUpdate = worker => {
+                    banner.hidden = false;
+                    document.getElementById('update-btn').onclick = () => {
+                        reloading = true;
+                        worker.postMessage('SKIP_WAITING');
+                    };
+                };
+                if (reg.waiting && navigator.serviceWorker.controller) showUpdate(reg.waiting);
+                reg.addEventListener('updatefound', () => {
+                    const worker = reg.installing;
+                    worker.addEventListener('statechange', () => {
+                        // 已有舊版在控制頁面才算「更新」，首次安裝不提示
+                        if (worker.state === 'installed' && navigator.serviceWorker.controller) showUpdate(worker);
+                    });
+                });
+                // 長時間開著的 App 回到前景時也檢查一次
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible') reg.update();
+                });
+            });
+            // 只在使用者按下更新後重新載入，避免首次安裝時被 clients.claim() 觸發
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                if (reloading) location.reload();
+            });
+        }
     </script>
 </body>
 
