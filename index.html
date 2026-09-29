@@ -110,6 +110,47 @@
             cursor: pointer;
         }
 
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        #project-search {
+            flex: 1 1 240px;
+            max-width: 360px;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 999px;
+            background: var(--card-bg);
+            font-size: 0.95rem;
+        }
+
+        .filter-chip {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 999px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .filter-chip.active {
+            background: var(--text-muted);
+            color: #fff;
+        }
+
+        .card[hidden] { display: none; }
+
+        #no-result {
+            text-align: center;
+            color: var(--text-muted);
+        }
+
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -292,6 +333,15 @@
         </header>
 
         <main>
+            <div class="filter-bar">
+                <input id="project-search" type="search" placeholder="🔍 搜尋專案名稱或說明…">
+                <button class="filter-chip active" type="button" data-tag="">全部</button>
+                <button class="filter-chip" type="button" data-tag="tag-tool">Data Tool</button>
+                <button class="filter-chip" type="button" data-tag="tag-api">AI & API</button>
+                <button class="filter-chip" type="button" data-tag="tag-system">System</button>
+                <button class="filter-chip" type="button" data-tag="pinned">📌 已釘選</button>
+            </div>
+            <p id="no-result" hidden>找不到符合的專案</p>
             <div class="grid-container" id="card-container">
                 <a href="https://cormort.github.io/word-table-extractor/" class="card" target="_blank" rel="noopener noreferrer" data-id="docx-extractor">
                     <div class="pin-btn" title="釘選此專案">📌</div>
@@ -718,7 +768,32 @@
                     cardElement.style.opacity = '1';
                     container.appendChild(cardElement);
                 });
+                applyFilter();
             }
+
+            // 篩選：關鍵字比對卡片文字，分類比對 tag class 或釘選狀態
+            const searchInput = document.getElementById('project-search');
+            const chips = document.querySelectorAll('.filter-chip');
+            let activeTag = '';
+            function applyFilter() {
+                const q = searchInput.value.trim().toLowerCase();
+                let shown = 0;
+                cardDataList.forEach(item => {
+                    const el = item.element;
+                    const matchTag = !activeTag
+                        || (activeTag === 'pinned' ? pinnedItems.includes(item.id) : el.querySelector('.' + activeTag));
+                    const matchText = !q || el.querySelector('.card-content').textContent.toLowerCase().includes(q);
+                    el.hidden = !(matchTag && matchText);
+                    if (!el.hidden) shown++;
+                });
+                document.getElementById('no-result').hidden = shown > 0;
+            }
+            searchInput.addEventListener('input', applyFilter);
+            chips.forEach(chip => chip.addEventListener('click', () => {
+                chips.forEach(c => c.classList.toggle('active', c === chip));
+                activeTag = chip.dataset.tag;
+                applyFilter();
+            }));
 
             // 初始執行一次排序與渲染
             renderCards();
