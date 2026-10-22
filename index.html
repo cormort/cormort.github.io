@@ -340,6 +340,342 @@
             .header-content h1 { font-size: 2rem; }
             .grid-container { grid-template-columns: 1fr; }
         }
+
+        /* --- 示範影片專區與按鈕樣式 --- */
+        .header-actions {
+            margin-top: 1.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        #sort-toggle, .header-btn {
+            margin-top: 0 !important;
+            padding: 0.55rem 1.3rem;
+            border: 1px solid rgba(0,0,0,0.1);
+            border-radius: 999px;
+            background: var(--card-bg);
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        #sort-toggle:hover, .header-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .header-btn.video-hub-btn {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+
+        .header-btn.video-hub-btn:hover {
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .card {
+            cursor: pointer;
+        }
+
+        .card-content h2 {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .case-tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(124, 58, 237, 0.15));
+            color: #4338ca;
+            border: 1px solid rgba(124, 58, 237, 0.25);
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .card-footer-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .video-pill-btn {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #ffffff;
+            border: none;
+            padding: 0.25rem 0.7rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+
+        .video-pill-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.45);
+        }
+
+        /* --- 示範影片彈窗 (Video Modal) --- */
+        .video-modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(15, 23, 42, 0.78);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-modal-backdrop.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .video-modal-dialog {
+            background: #ffffff;
+            width: 100%;
+            max-width: 960px;
+            max-height: 92vh;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transform: translateY(20px) scale(0.98);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .video-modal-backdrop.show .video-modal-dialog {
+            transform: translateY(0) scale(1);
+        }
+
+        .video-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.6rem;
+            border-bottom: 1px solid #f1f5f9;
+            background: #ffffff;
+        }
+
+        .video-modal-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .video-case-badge {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 0.2rem 0.65rem;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+        }
+
+        .video-modal-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .video-modal-close {
+            background: #f1f5f9;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #64748b;
+            transition: all 0.2s;
+            line-height: 1;
+        }
+
+        .video-modal-close:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+            transform: scale(1.08);
+        }
+
+        .video-modal-body {
+            padding: 1.2rem 1.6rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .video-player-wrapper {
+            position: relative;
+            background: #000;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+            aspect-ratio: 16 / 9;
+            width: 100%;
+        }
+
+        .video-player-wrapper video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+        .video-info-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .video-info-subtitle {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .video-info-desc {
+            font-size: 0.92rem;
+            color: #334155;
+            line-height: 1.6;
+        }
+
+        .video-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 0.3rem;
+            flex-wrap: wrap;
+        }
+
+        .video-action-btn {
+            padding: 0.5rem 1.1rem;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .video-action-primary {
+            background: #2563eb;
+            color: #fff;
+        }
+
+        .video-action-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .video-action-secondary {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .video-action-secondary:hover {
+            background: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        .video-playlist-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .video-playlist-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #64748b;
+        }
+
+        .video-playlist-bar {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.4rem 0.2rem;
+            scrollbar-width: thin;
+        }
+
+        .video-playlist-item {
+            flex-shrink: 0;
+            padding: 0.45rem 0.9rem;
+            border-radius: 999px;
+            border: 1px solid #cbd5e1;
+            background: #fff;
+            color: #475569;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .video-playlist-item:hover {
+            border-color: #2563eb;
+            color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .video-playlist-item.active {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #fff;
+            border-color: transparent;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+
+        @media (max-width: 640px) {
+            .video-modal-dialog { max-height: 96vh; border-radius: 14px; }
+            .video-modal-header { padding: 1rem 1.2rem; }
+            .video-modal-body { padding: 1rem 1.2rem; }
+        }
+
     </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHGBM401HN"></script>
@@ -364,7 +700,10 @@
             <div class="header-content">
                 <h1>中央政府特種基金AI智能分析平台</h1>
                 <p class="subtitle">整合式專案入口與工具服務</p>
-                <button id="sort-toggle" type="button"></button>
+                <div class="header-actions">
+                    <button id="sort-toggle" type="button"></button>
+                    <button id="video-hub-btn" type="button" class="header-btn video-hub-btn">🎬 案例操作示範影片專區</button>
+                </div>
             </div>
         </header>
 
@@ -378,11 +717,12 @@
                 <button class="filter-chip" type="button" data-tag="tag-viz">視覺化分析</button>
                 <button class="filter-chip" type="button" data-tag="tag-system">系統平台</button>
                 <button class="filter-chip" type="button" data-tag="tag-api">AI & API</button>
+                <button class="filter-chip" type="button" data-tag="tag-demo">🎬 課程案例示範</button>
                 <button class="filter-chip" type="button" data-tag="pinned">📌 已釘選</button>
             </div>
             <p id="no-result" hidden>找不到符合的專案</p>
             <div class="grid-container" id="card-container">
-                <a href="https://cormort.github.io/word-table-extractor/" class="card" target="_blank" rel="noopener noreferrer" data-id="docx-extractor">
+                <div class="card" data-href="https://cormort.github.io/word-table-extractor/" data-id="docx-extractor">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📖</div>
@@ -394,23 +734,44 @@
                             <span class="update-time">更新: 2026-05-20</span>
                         </div>
                     </div>
-                </a>
+                </div>
                 
-                <a href="https://cormort.github.io/pdfviewer_v2/" class="card" target="_blank" rel="noopener noreferrer" data-id="pdf-viewer">
+                <div class="card" data-href="https://cormort.github.io/pdfviewer_v2/" data-id="pdf-viewer">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📖</div>
                     <div class="card-content">
-                        <h2>模擬題、說帖查找神器</h2>
-                        <p>上傳多個 PDF 檔案，跨檔查找特定關鍵字的頁面，加速資料盤點。</p>
+                        <h2><span class="case-tag">案例 1</span>模擬題、說帖查找神器</h2>
+                        <p>上傳多個 PDF 檔案，跨檔查找特定關鍵字的頁面，加速資料盤點與重要條文比對。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-pdf">PDF 工具</span>
-                            <span class="update-time">更新: 2026-05-22</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-pdf tag-demo">PDF 工具</span>
+                                <button class="video-pill-btn" type="button" data-video="case1_pdfviewer" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
                         </div>
                     </div>
-                </a>
+                </div>
+                <!-- 案例 2 -->
+                <div class="card" data-href="https://cormort.github.io/subunit-budget-tool/" data-id="subunit-budget-tool">
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
+                    <div class="card-icon">🏛️</div>
+                    <div class="card-content">
+                        <h2><span class="case-tag">案例 2</span>基金資料庫與分析說明產生器</h2>
+                        <p>匯入作業基金與政事基金分析說明 docx，建立結構化資料庫、跨年度勾稽與收支數字提取。</p>
+                        <div class="card-footer">
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-parser tag-demo">預算解析</span>
+                                <button class="video-pill-btn" type="button" data-video="case2_subunit_budget" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
+                        </div>
+                    </div>
+                </div>
+
                 
-                <a href="https://cormort.github.io/fund-financial-statement/" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-financial">
+                <div class="card" data-href="https://cormort.github.io/fund-financial-statement/" data-id="fund-financial">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📖</div>
@@ -422,9 +783,9 @@
                             <span class="update-time">更新: 2026-05-25</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://huggingface.co/spaces/cormort/fund-law-api" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-law-api">
+                <div class="card" data-href="https://huggingface.co/spaces/cormort/fund-law-api" data-id="fund-law-api">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">🧠</div>
@@ -436,37 +797,43 @@
                             <span class="update-time">更新: 2026-04-15</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/excel_merge/" class="card" target="_blank" rel="noopener noreferrer" data-id="excel-merge">
+                <div class="card" data-href="https://cormort.github.io/excel_merge/" data-id="excel-merge">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📊</div>
                     <div class="card-content">
-                        <h2>Excel貼表神器</h2>
-                        <p>一次匯入大量excel檔案，選擇指定工作表貼上，節省開啟檔案複製貼上等重複性作業，適用於相同欄位的調查表。</p>
+                        <h2><span class="case-tag">案例 3A</span>Excel貼表神器</h2>
+                        <p>一次匯入大量excel檔案，選擇指定工作表貼上，節省重複開啟檔案複製貼上作業，適用於相同欄位調查表。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-excel">Excel / 文件</span>
-                            <span class="update-time">更新: 2026-05-18</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-excel tag-demo">Excel / 文件</span>
+                                <button class="video-pill-btn" type="button" data-video="case3a_excel_merge" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/multi-xlsx_merge/" class="card" target="_blank" rel="noopener noreferrer" data-id="multi-xlsx-merge">
+                <div class="card" data-href="https://cormort.github.io/multi-xlsx_merge/" data-id="multi-xlsx-merge">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📑</div>
                     <div class="card-content">
-                        <h2>XLSX合併工具</h2>
-                        <p>用於批次、大批量合併多個版型(欄及列需完全相同) Excel 試算表，自動化繁瑣的資料整併流程。</p>
+                        <h2><span class="case-tag">案例 3B</span>XLSX合併工具</h2>
+                        <p>用於批次、大批量合併多個版型(欄及列需完全相同) Excel 試算表，依儲存格位置自動化整併加總。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-excel">Excel / 文件</span>
-                            <span class="update-time">更新: 2026-03-30</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-excel tag-demo">Excel / 文件</span>
+                                <button class="video-pill-btn" type="button" data-video="case3b_multi_xlsx_merge" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/local_gov_budget/" class="card" target="_blank" rel="noopener noreferrer" data-id="local-gov-budget">
+                <div class="card" data-href="https://cormort.github.io/local_gov_budget/" data-id="local-gov-budget">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📑</div>
@@ -478,65 +845,95 @@
                             <span class="update-time">更新: 2026-02-14</span>
                         </div>
                     </div>
-                </a>
+                </div>
                 
-                <a href="https://cormort.github.io/budget-opinion-reviewer/" class="card" target="_blank" rel="noopener noreferrer" data-id="budget-opinion">
+                <div class="card" data-href="https://cormort.github.io/budget-opinion-reviewer/" data-id="budget-opinion">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📋</div>
                     <div class="card-content">
-                        <h2>預算審查意見檢誤系統(含docx金額驗算)</h2>
-                        <p>自動判定並過濾預算意見文字，高亮潛在錯誤，提升審核效率。</p>
+                        <h2><span class="case-tag">案例 4B</span>預算審查意見檢誤系統(含docx金額驗算)</h2>
+                        <p>自動判定並過濾預算意見文字，高亮潛在錯誤，並由 docx 抽取文字金額驗算品管。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-system">系統平台</span>
-                            <span class="update-time">更新: 2026-05-01</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-system tag-demo">系統平台</span>
+                                <button class="video-pill-btn" type="button" data-video="case4b_budget_opinion" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/excel-validator/" class="card" target="_blank" rel="noopener noreferrer" data-id="excel-validator">
+                <div class="card" data-href="https://cormort.github.io/excel-validator/" data-id="excel-validator">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">✅</div>
                     <div class="card-content">
-                        <h2>Excel驗算神器</h2>
-                        <p>快速驗算excel欄、列合計數正確性，支援跳欄、列或連續選取(僅加、減)</p>
+                        <h2><span class="case-tag">案例 4A</span>Excel驗算神器</h2>
+                        <p>快速驗算excel欄、列合計數正確性，支援跳欄、列或連續選取，秒抓算術與加總錯誤。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-excel">Excel / 文件</span>
-                            <span class="update-time">更新: 2026-04-20</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-excel tag-demo">Excel / 文件</span>
+                                <button class="video-pill-btn" type="button" data-video="case4a_excel_validator" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
                         </div>
                     </div>
-                </a>
+                </div>
+                <!-- 案例 5 -->
+                <div class="card" data-href="https://cormort.github.io/json_xml_reader/" data-id="json-xml-reader">
+                    <div class="pin-btn" title="釘選此專案">📌</div>
+                    <div class="click-badge">載入中...</div>
+                    <div class="card-icon">⚡</div>
+                    <div class="card-content">
+                        <h2><span class="case-tag">案例 5</span>資料分析與轉換儀表板</h2>
+                        <p>解析複雜 JSON/XML 及 OpenData API 回應，自動偵測分頁未完全並將巢狀欄位扁平化匯出。</p>
+                        <div class="card-footer">
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-excel tag-demo">Excel / 文件</span>
+                                <button class="video-pill-btn" type="button" data-video="case5_json_xml_reader" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
+                        </div>
+                    </div>
+                </div>
+
                 
-                <a href="https://huggingface.co/spaces/cormort/tw_statistic_map" class="card" target="_blank" rel="noopener noreferrer" data-id="tw-map">
+                <div class="card" data-href="https://huggingface.co/spaces/cormort/tw_statistic_map" data-id="tw-map">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">🗺️</div>
                     <div class="card-content">
-                        <h2>臺灣 Open Data 視覺化</h2>
-                        <p>上傳具臺灣行政區欄位的資料，一鍵產生互動式統計地圖儀表板。</p>
+                        <h2><span class="case-tag">案例 6A</span>臺灣 Open Data 視覺化</h2>
+                        <p>上傳具臺灣行政區欄位的資料，一鍵產生互動式統計地圖、排行榜與趨勢圖儀表板。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-viz">視覺化分析</span>
-                            <span class="update-time">更新: 2026-03-15</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-viz tag-demo">視覺化分析</span>
+                                <button class="video-pill-btn" type="button" data-video="case6a_tw_statistic_map" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://huggingface.co/spaces/cormort/time-series-forecast" class="card" target="_blank" rel="noopener noreferrer" data-id="time-series">
+                <div class="card" data-href="https://huggingface.co/spaces/cormort/time-series-forecast" data-id="time-series">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📈</div>
                     <div class="card-content">
-                        <h2>時間序列預測</h2>
-                        <p>根據歷史資料，透過演算法產生各種預測數據並繪製未來趨勢圖。</p>
+                        <h2><span class="case-tag">案例 6B</span>時間序列預測</h2>
+                        <p>根據歷史資料，自動辨識民國年表頭，透過演算法產生各種預測數據並繪製未來趨勢圖。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-viz">視覺化分析</span>
-                            <span class="update-time">更新: 2026-05-10</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-viz tag-demo">視覺化分析</span>
+                                <button class="video-pill-btn" type="button" data-video="case6b_time_series_forecast" title="觀看操作示範影片">🎬 示範影片</button>
+                            </div>
+                            <span class="update-time">更新: 2026-10-22</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://huggingface.co/spaces/cormort/fund-month-report" class="card" target="_blank" rel="noopener noreferrer" data-id="fund-month-report">
+                <div class="card" data-href="https://huggingface.co/spaces/cormort/fund-month-report" data-id="fund-month-report">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📱</div>
@@ -548,9 +945,9 @@
                             <span class="update-time">更新: 2026-05-27</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/html_generator/" class="card" target="_blank" rel="noopener noreferrer" data-id="html-generator">
+                <div class="card" data-href="https://cormort.github.io/html_generator/" data-id="html-generator">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">⚡</div>
@@ -562,9 +959,9 @@
                             <span class="update-time">更新: 2026-01-10</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/local-budget-parser/" class="card" target="_blank" rel="noopener noreferrer" data-id="local-budget-parser">
+                <div class="card" data-href="https://cormort.github.io/local-budget-parser/" data-id="local-budget-parser">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">🏛️</div>
@@ -576,9 +973,9 @@
                             <span class="update-time">更新: 2026-07-31</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/unit-budget-parser/" class="card" target="_blank" rel="noopener noreferrer" data-id="unit-budget-parser">
+                <div class="card" data-href="https://cormort.github.io/unit-budget-parser/" data-id="unit-budget-parser">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">🏢</div>
@@ -590,9 +987,9 @@
                             <span class="update-time">更新: 2026-07-31</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/budget-pdf-parser/" class="card" target="_blank" rel="noopener noreferrer" data-id="budget-pdf-parser">
+                <div class="card" data-href="https://cormort.github.io/budget-pdf-parser/" data-id="budget-pdf-parser">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📄</div>
@@ -604,9 +1001,9 @@
                             <span class="update-time">更新: 2026-07-31</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/pdf-row-shifter/" class="card" target="_blank" rel="noopener noreferrer" data-id="pdf-row-shifter">
+                <div class="card" data-href="https://cormort.github.io/pdf-row-shifter/" data-id="pdf-row-shifter">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📐</div>
@@ -618,9 +1015,9 @@
                             <span class="update-time">更新: 2026-08-16</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/xls2spread/" class="card" target="_blank" rel="noopener noreferrer" data-id="xls2spread">
+                <div class="card" data-href="https://cormort.github.io/xls2spread/" data-id="xls2spread">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">📊</div>
@@ -632,8 +1029,8 @@
                             <span class="update-time">更新: 2026-08-16</span>
                         </div>
                     </div>
-                </a>
-                <a href="https://cormort.github.io/cb-budget-parser/" class="card" target="_blank" rel="noopener noreferrer" data-id="cb-budget-parser">
+                </div>
+                <div class="card" data-href="https://cormort.github.io/cb-budget-parser/" data-id="cb-budget-parser">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">🏦</div>
@@ -645,9 +1042,9 @@
                             <span class="update-time">更新: 2026-09-23</span>
                         </div>
                     </div>
-                </a>
+                </div>
 
-                <a href="https://cormort.github.io/diffpdf-web/" class="card" target="_blank" rel="noopener noreferrer" data-id="diffpdf-web">
+                <div class="card" data-href="https://cormort.github.io/diffpdf-web/" data-id="diffpdf-web">
                     <div class="pin-btn" title="釘選此專案">📌</div>
                     <div class="click-badge">載入中...</div>
                     <div class="card-icon">🔍</div>
@@ -659,9 +1056,40 @@
                             <span class="update-time">更新: 2026-09-24</span>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
         </main>
+
+
+    <!-- 示範影片彈出視窗 (Video Modal) -->
+    <div id="video-modal" class="video-modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="video-modal-dialog">
+            <div class="video-modal-header">
+                <div class="video-modal-title-wrap">
+                    <span id="modal-case-badge" class="video-case-badge">案例 1</span>
+                    <h3 id="modal-title" class="video-modal-title">示範影片</h3>
+                </div>
+                <button id="modal-close-btn" class="video-modal-close" aria-label="關閉影片">&times;</button>
+            </div>
+            <div class="video-modal-body">
+                <div class="video-player-wrapper">
+                    <video id="modal-video-player" controls preload="metadata" playsinline></video>
+                </div>
+                <div class="video-info-box">
+                    <div id="modal-subtitle" class="video-info-subtitle"></div>
+                    <p id="modal-desc" class="video-info-desc"></p>
+                    <div class="video-actions">
+                        <a id="modal-open-tool-link" href="#" target="_blank" rel="noopener noreferrer" class="video-action-btn video-action-primary">🚀 開啟對應工具</a>
+                        <a id="modal-download-link" href="#" download class="video-action-btn video-action-secondary">📥 下載影片 (MP4)</a>
+                    </div>
+                </div>
+                <div class="video-playlist-section">
+                    <div class="video-playlist-title">切換其他課程案例示範影片：</div>
+                    <div id="video-playlist-bar" class="video-playlist-bar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
         <footer>
             <p>&copy; 2026 中央政府特種基金AI智能分析平台. All rights reserved.</p>
@@ -670,6 +1098,193 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
+
+        // --- 課程案例示範影片資料庫 ---
+        const caseVideos = {
+            'case1_pdfviewer': {
+                caseNum: '案例 1',
+                title: '模擬題、說帖查找神器',
+                subtitle: 'PDF 跨檔智慧檢索（秒級定位關鍵字）',
+                desc: '一次載入 4 份預算書參考表 PDF，跨檔秒搜「科學園區」；示範關鍵字同義詞陷阱（「臺大醫院」需改搜正式名稱「國立臺灣大學附設醫院」）。',
+                file: 'videos/case1_pdfviewer.mp4',
+                url: 'https://cormort.github.io/pdfviewer_v2/',
+                cardId: 'pdf-viewer'
+            },
+            'case2_subunit_budget': {
+                caseNum: '案例 2',
+                title: '基金資料庫與分析說明產生器',
+                subtitle: '特種基金文件結構化資料庫與跨年度勾稽',
+                desc: '由 115、116 年度各 30 份 Word (docx) 分析說明自動萃取結構化資料入庫，並跨年度勾稽「上年度預算數」一致性。',
+                file: 'videos/case2_subunit_budget.mp4',
+                url: 'https://cormort.github.io/subunit-budget-tool/',
+                cardId: 'subunit-budget-tool'
+            },
+            'case3a_excel_merge': {
+                caseNum: '案例 3A',
+                title: 'Excel 貼表神器',
+                subtitle: '不同列數、依指定欄位自動黏貼彙整',
+                desc: '匯入 41 份購建固資表，各挑出指定基金資料列自動整併；示範欄位比對與回頭勾稽漏列的檢查防呆機制。',
+                file: 'videos/case3a_excel_merge.mp4',
+                url: 'https://cormort.github.io/excel_merge/',
+                cardId: 'excel-merge'
+            },
+            'case3b_multi_xlsx_merge': {
+                caseNum: '案例 3B',
+                title: 'XLSX 合併工具',
+                subtitle: '相同版型、依儲存格位置批次大批量加總',
+                desc: '一次加總 30 份摘要表，自動偵測資料範圍；合計異常即時查獲小數點格式問題（作07-大學、作21-農水）。',
+                file: 'videos/case3b_multi_xlsx_merge.mp4',
+                url: 'https://cormort.github.io/multi-xlsx_merge/',
+                cardId: 'multi-xlsx-merge'
+            },
+            'case4a_excel_validator': {
+                caseNum: '案例 4A',
+                title: 'Excel 驗算神器',
+                subtitle: '試算表欄列合計加總勾稽自動檢誤',
+                desc: '快速橫向驗算 4 個合計錯誤，縱向自動抓出總計漏加列，大幅節省人工查核時間。',
+                file: 'videos/case4a_excel_validator.mp4',
+                url: 'https://cormort.github.io/excel-validator/',
+                cardId: 'excel-validator'
+            },
+            'case4b_budget_opinion': {
+                caseNum: '案例 4B',
+                title: '預算審查意見檢誤系統',
+                subtitle: 'Word 公文與審查意見文字金額驗算品管',
+                desc: '從 Word (docx) 文字段落自動抽取金額數字並進行段落加總驗算，精準揪出加總不符（如 1,450 ≠ 1,350）。',
+                file: 'videos/case4b_budget_opinion.mp4',
+                url: 'https://cormort.github.io/budget-opinion-reviewer/',
+                cardId: 'budget-opinion'
+            },
+            'case5_json_xml_reader': {
+                caseNum: '案例 5',
+                title: '資料分析與轉換儀表板',
+                subtitle: 'JSON / XML 展平、篩選與 OpenData API 分頁檢誤',
+                desc: '即時檢驗 API 分頁回應（警示只回傳第 1 頁），並將深層巢狀欄位自動展平為可篩選、匯出之結構化表格。',
+                file: 'videos/case5_json_xml_reader.mp4',
+                url: 'https://cormort.github.io/json_xml_reader/',
+                cardId: 'json-xml-reader'
+            },
+            'case6a_tw_statistic_map': {
+                caseNum: '案例 6A',
+                title: '臺灣 Open Data 視覺化',
+                subtitle: '縣市地圖、排行榜與趨勢圖儀表板',
+                desc: '上傳長表資料自動識別縣市別並在地圖呈現；警示比率型指標不應逕行加總，應改採加權平均或個別檢視。',
+                file: 'videos/case6a_tw_statistic_map.mp4',
+                url: 'https://huggingface.co/spaces/cormort/tw_statistic_map',
+                cardId: 'tw-map'
+            },
+            'case6b_time_series_forecast': {
+                caseNum: '案例 6B',
+                title: '時間序列預測',
+                subtitle: '民國年自動轉換、演算法未來趨勢模擬',
+                desc: '自動相容「105年」「民國105年」等公務表頭格式，運用四種時序演算法即時推估未來數值走勢。',
+                file: 'videos/case6b_time_series_forecast.mp4',
+                url: 'https://huggingface.co/spaces/cormort/time-series-forecast',
+                cardId: 'time-series'
+            },
+            'case0_budget_summary': {
+                caseNum: '貫穿案例',
+                title: '預算表彙整工具',
+                subtitle: '每月彙整 30 單位預算表（自動抓漏、查核錯誤）',
+                desc: '正常 30 檔快速彙整交付；問題檔即時抓出漏交、缺工作表、合計差額 107,000 元等異常。',
+                file: 'videos/case0_budget_summary.mp4',
+                url: '#',
+                cardId: null
+            }
+        };
+
+        // --- 彈出視窗播放器控制 ---
+        const videoModal = document.getElementById('video-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalVideoPlayer = document.getElementById('modal-video-player');
+        const modalCaseBadge = document.getElementById('modal-case-badge');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSubtitle = document.getElementById('modal-subtitle');
+        const modalDesc = document.getElementById('modal-desc');
+        const modalOpenToolLink = document.getElementById('modal-open-tool-link');
+        const modalDownloadLink = document.getElementById('modal-download-link');
+        const videoPlaylistBar = document.getElementById('video-playlist-bar');
+        const videoHubBtn = document.getElementById('video-hub-btn');
+
+        let currentVideoKey = 'case1_pdfviewer';
+
+        function buildPlaylist() {
+            videoPlaylistBar.innerHTML = '';
+            Object.keys(caseVideos).forEach(key => {
+                const item = caseVideos[key];
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'video-playlist-item ' + (key === currentVideoKey ? 'active' : '');
+                btn.setAttribute('data-key', key);
+                btn.innerHTML = '<span>' + item.caseNum + '</span> ' + item.title;
+                btn.addEventListener('click', () => {
+                    loadVideo(key);
+                });
+                videoPlaylistBar.appendChild(btn);
+            });
+        }
+
+        function loadVideo(key) {
+            const item = caseVideos[key];
+            if (!item) return;
+            currentVideoKey = key;
+
+            modalCaseBadge.textContent = item.caseNum;
+            modalTitle.textContent = item.title;
+            modalSubtitle.textContent = item.subtitle;
+            modalDesc.textContent = item.desc;
+            modalDownloadLink.href = item.file;
+            modalDownloadLink.setAttribute('download', item.caseNum + '_' + item.title + '.mp4');
+
+            if (item.url && item.url !== '#') {
+                modalOpenToolLink.href = item.url;
+                modalOpenToolLink.style.display = 'inline-flex';
+            } else {
+                modalOpenToolLink.style.display = 'none';
+            }
+
+            modalVideoPlayer.src = item.file;
+            modalVideoPlayer.load();
+            modalVideoPlayer.play().catch(() => {});
+
+            videoPlaylistBar.querySelectorAll('.video-playlist-item').forEach(b => {
+                b.classList.toggle('active', b.getAttribute('data-key') === key);
+            });
+        }
+
+        function openVideoModal(key) {
+            loadVideo(key || 'case1_pdfviewer');
+            videoModal.classList.add('show');
+            videoModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            modalVideoPlayer.pause();
+            videoModal.classList.remove('show');
+            videoModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+
+        modalCloseBtn.addEventListener('click', closeVideoModal);
+        videoModal.addEventListener('click', (e) => {
+            if (e.target === videoModal) closeVideoModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoModal.classList.contains('show')) {
+                closeVideoModal();
+            }
+        });
+
+        if (videoHubBtn) {
+            videoHubBtn.addEventListener('click', () => {
+                openVideoModal(currentVideoKey);
+            });
+        }
+
+        buildPlaylist();
+
             const container = document.getElementById('card-container');
             const originalCards = Array.from(container.querySelectorAll('.card'));
             const githubUser = 'cormort';
@@ -677,6 +1292,8 @@
             const repoMap = {
                 'docx-extractor': 'word-table-extractor',
                 'pdf-viewer': 'pdfviewer_v2',
+                'subunit-budget-tool': 'subunit-budget-tool',
+                'json-xml-reader': 'json_xml_reader',
                 'fund-financial': 'fund-financial-statement',
                 'fund-law-api': null, 
                 'excel-merge': 'excel_merge',
@@ -707,6 +1324,43 @@
                 sortBy = sortBy === 'date' ? 'score' : 'date';
                 localStorage.setItem('my_sort_by', sortBy);
                 renderCards();
+            });
+
+            
+            // 統一事件委託：處理卡片跳轉、釘選與示範影片按鈕
+            container.addEventListener('click', (e) => {
+                const videoBtn = e.target.closest('.video-pill-btn');
+                if (videoBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const vKey = videoBtn.getAttribute('data-video');
+                    openVideoModal(vKey);
+                    return;
+                }
+                const pinBtn = e.target.closest('.pin-btn');
+                if (pinBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const card = pinBtn.closest('.card');
+                    const id = card?.getAttribute('data-id');
+                    if (id) {
+                        if (pinnedItems.includes(id)) {
+                            pinnedItems = pinnedItems.filter(item => item !== id);
+                        } else {
+                            pinnedItems.push(id);
+                        }
+                        localStorage.setItem('my_pinned_projects', JSON.stringify(pinnedItems));
+                        renderCards();
+                    }
+                    return;
+                }
+                const card = e.target.closest('.card');
+                if (card) {
+                    const href = card.getAttribute('data-href');
+                    if (href && href !== '#') {
+                        window.open(href, '_blank', 'noopener,noreferrer');
+                    }
+                }
             });
 
             // 顯示載入中提示
@@ -741,25 +1395,8 @@
                 const badgeText = repoName ? `⭐ ${displayCount}` : `🚀 ${displayCount}`;
                 card.querySelector('.click-badge').innerHTML = badgeText;
 
-                // 綁定釘選按鈕事件
+                // 卡片與按鈕事件委託在 container 統一處理
                 const pinBtn = card.querySelector('.pin-btn');
-                
-                pinBtn.addEventListener('click', (e) => {
-                    e.preventDefault();   // 阻止 <a> 標籤跳轉
-                    e.stopPropagation();  // 阻止事件冒泡
-
-                    if (pinnedItems.includes(id)) {
-                        // 解除釘選
-                        pinnedItems = pinnedItems.filter(item => item !== id);
-                    } else {
-                        // 新增釘選
-                        pinnedItems.push(id);
-                    }
-                    
-                    // 存回 LocalStorage 並重新渲染
-                    localStorage.setItem('my_pinned_projects', JSON.stringify(pinnedItems));
-                    renderCards();
-                });
 
                 cardDataList.push({
                     id: id,
