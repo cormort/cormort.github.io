@@ -941,7 +941,10 @@
                         <h2>預算執行視覺化儀表板</h2>
                         <p>根據特種基金會計資料，自動產生管理性報表及視覺化儀表板。</p>
                         <div class="card-footer">
-                            <span class="card-tag tag-viz">視覺化分析</span>
+                            <div class="card-footer-left">
+                                <span class="card-tag tag-viz">視覺化分析</span>
+                                <button class="video-pill-btn" type="button" data-video="fund_month_report_intro" title="觀看工具介紹影片">🎬 介紹影片</button>
+                            </div>
                             <span class="update-time">更新: 2026-05-27</span>
                         </div>
                     </div>
@@ -1190,6 +1193,15 @@
                 file: 'videos/case0_budget_summary.mp4',
                 url: '#',
                 cardId: null
+            },
+            'fund_month_report_intro': {
+                caseNum: '工具介紹',
+                title: '預算執行視覺化儀表板',
+                subtitle: '特種基金月報：資料匯入、勾稽驗證、財務分析到月報交付（約 10 分鐘）',
+                desc: '以榮民醫療作業基金 114 年度月報示範：36 份報表解析與勾稽、KPI 提示、收支結構與資金流向、固定資產執行率門檻、平衡表科目逐月追蹤，以及一鍵產出 A4 月報 HTML。',
+                file: 'videos/fund_month_report_intro.mp4',
+                url: 'https://huggingface.co/spaces/cormort/fund-month-report',
+                cardId: 'fund-month-report'
             }
         };
 
