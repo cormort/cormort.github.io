@@ -1,5 +1,5 @@
 // 每次發布新版請修改 VERSION，瀏覽器偵測到 sw.js 變動才會通知使用者更新
-const VERSION = '2026-10-23-3';
+const VERSION = '2026-10-23-4';
 const CACHE = `portal-${VERSION}`;
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
