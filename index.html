@@ -848,7 +848,7 @@
                     <div class="card-icon">📑</div>
                     <div class="card-content">
                         <h2>自訂表單查填彙整（取代線上表單）</h2>
-                        <p>上傳 Excel 範本（支援多個工作表分頁、合併儲存格多層表頭、同列公式與層級小計）自動產生查填表單與查填用 Excel；各機關用網頁或 Excel 填報，回傳 JSON 或 Excel，彙整時檢查重複填報與未填報，再匯出 Excel。首頁即承辦入口，範本庫可分類管理、一鍵發出查填與彙整。</p>
+                        <p>四大部分：範本庫（上傳 Excel 範本自動產生表單，支援多工作表、多層表頭、同列公式與層級小計）→ 調查專案（每次收件設定發起單位、用途、期間與應繳機關，各有查填網址）→ 查填（網頁或查填用 Excel）→ 彙整（已繳／未繳、重複填報檢查，匯出 Excel）。</p>
                         <div class="card-footer">
                             <div class="card-footer-left">
                                 <span class="card-tag tag-system">系統平台</span>
@@ -1242,8 +1242,8 @@
             'local_gov_form_intro': {
                 caseNum: '工具介紹',
                 title: '自訂表單查填彙整',
-                subtitle: '用 GitHub Pages 取代線上表單：從申請 GitHub 帳號、建立自己的網站，到 Excel 範本 → 網頁或 Excel 填報 → 回傳 JSON 或 Excel → 彙整匯出 Excel（約 7 分鐘，含語音旁白）',
-                desc: '第一部分：申請 GitHub 帳號、Fork 專案、開啟 GitHub Pages，建立自己的查填網站。第二部分：首頁承辦入口；以含兩層表頭與「一、（一）1.」層級小計的經費表示範：上傳 Excel 產生表單、發布到範本庫（分享連結、查填用 Excel、範本庫管理頁）；填報人增刪列、從 Excel 貼上或匯入已填 Excel，回傳 JSON 或 Excel；從範本庫按「彙整」把 JSON 與 Excel 一起拖入、依項目彙總並匯出 Excel；另以多工作表、各基金只填自己那一列的清單型表示範工作表分頁、重複填報審核與依工作表彙總；最後整理各種彙整方式與使用限制。',
+                subtitle: '用 GitHub Pages 取代線上表單：從申請 GitHub 帳號、建立自己的網站，到範本庫 → 發起調查專案 → 網頁或 Excel 查填 → 彙整匯出 Excel（約 7 分鐘，含語音旁白）',
+                desc: '第一部分：申請 GitHub 帳號、Fork 專案、開啟 GitHub Pages，建立自己的查填網站。第二部分依四大部分示範：範本庫（上傳含兩層表頭與層級小計的 Excel 範本、匯出並發布）；調查專案（以此範本發起調查，設定發起單位、用途、期間與應繳機關，各有查填網址）；查填（調查資訊列、從 Excel 貼上、草稿自動保存、查填用 Excel 與匯入已填 Excel，回傳 JSON 或 Excel）；彙整（從調查進入，繳交清單列出已繳／未繳、別的調查的檔案擋下，依項目彙總並匯出 Excel）。另以多工作表、各基金只填自己那一列的清單型表示範重複填報審核與依工作表彙總；最後整理彙整方式與使用限制。',
                 file: 'videos/local_gov_form_intro.mp4',
                 url: 'https://cormort.github.io/local_gov_budget/',
                 cardId: 'local-gov-budget'
