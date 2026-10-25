@@ -142,26 +142,6 @@
             cursor: pointer;
         }
 
-        .filter-chip.sort-time-chip {
-            border: 1px solid rgba(37, 99, 235, 0.4);
-            color: #2563eb;
-            background: rgba(37, 99, 235, 0.06);
-            font-weight: 700;
-        }
-
-        .filter-chip.sort-time-chip:hover {
-            background: rgba(37, 99, 235, 0.12);
-            border-color: #2563eb;
-            transform: translateY(-1px);
-        }
-
-        .filter-chip.sort-time-chip.active {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            border-color: transparent;
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
-        }
-
         .filter-chip.active {
             background: var(--text-muted);
             color: #fff;
@@ -392,6 +372,13 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             border-color: rgba(37, 99, 235, 0.3);
+        }
+
+        .header-btn.sort-btn.active {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #ffffff;
+            border-color: transparent;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
         }
 
         .header-btn.video-hub-btn {
@@ -721,7 +708,8 @@
                 <h1>中央政府特種基金AI智能分析平台</h1>
                 <p class="subtitle">整合式專案入口與工具服務</p>
                 <div class="header-actions">
-                    <button id="sort-toggle" type="button">🕒 依時間排序</button>
+                    <button id="sort-time-btn" type="button" class="header-btn sort-btn active">🕒 依時間排序</button>
+                    <button id="sort-score-btn" type="button" class="header-btn sort-btn">⭐ 依星數排序</button>
                     <button id="video-hub-btn" type="button" class="header-btn video-hub-btn">🎬 案例操作示範影片專區</button>
                 </div>
             </div>
@@ -731,7 +719,6 @@
             <div class="filter-bar">
                 <input id="project-search" type="search" placeholder="🔍 搜尋專案名稱或說明…">
                 <button class="filter-chip active" type="button" data-tag="">全部</button>
-                <button id="sort-time-btn" class="filter-chip sort-time-chip active" type="button" title="依更新時間排序">🕒 依時間排序</button>
                 <button class="filter-chip" type="button" data-tag="tag-parser">預算解析</button>
                 <button class="filter-chip" type="button" data-tag="tag-pdf">PDF 工具</button>
                 <button class="filter-chip" type="button" data-tag="tag-excel">Excel / 文件</button>
@@ -1506,14 +1493,8 @@
             let sortBy = localStorage.getItem('my_sort_by') || 'date';
             let sortOrder = localStorage.getItem('my_sort_order') || 'desc';
 
-            const sortToggle = document.getElementById('sort-toggle');
             const sortTimeBtn = document.getElementById('sort-time-btn');
-
-            function handleSortToggle() {
-                sortBy = sortBy === 'date' ? 'score' : 'date';
-                localStorage.setItem('my_sort_by', sortBy);
-                renderCards();
-            }
+            const sortScoreBtn = document.getElementById('sort-score-btn');
 
             function handleSortTimeClick() {
                 if (sortBy === 'date') {
@@ -1528,8 +1509,14 @@
                 renderCards();
             }
 
-            if (sortToggle) sortToggle.addEventListener('click', handleSortToggle);
+            function handleSortScoreClick() {
+                sortBy = 'score';
+                localStorage.setItem('my_sort_by', sortBy);
+                renderCards();
+            }
+
             if (sortTimeBtn) sortTimeBtn.addEventListener('click', handleSortTimeClick);
+            if (sortScoreBtn) sortScoreBtn.addEventListener('click', handleSortScoreClick);
 
             // 統一事件委託：處理卡片跳轉、釘選與示範影片按鈕
             container.addEventListener('click', (e) => {
@@ -1570,12 +1557,12 @@
             // 2. 獨立出渲染排序函數，讓釘選或切換排序後即時更新畫面
             function renderCards() {
                 const dateLabel = sortOrder === 'asc' ? '🕒 依時間 (舊→新)' : '🕒 依時間排序';
-                if (sortToggle) {
-                    sortToggle.textContent = sortBy === 'date' ? dateLabel : '⭐ 依星數';
-                }
                 if (sortTimeBtn) {
                     sortTimeBtn.textContent = dateLabel;
                     sortTimeBtn.classList.toggle('active', sortBy === 'date');
+                }
+                if (sortScoreBtn) {
+                    sortScoreBtn.classList.toggle('active', sortBy === 'score');
                 }
 
                 // 排序邏輯：有釘選的排前面，其餘依更新時間新到舊
