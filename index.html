@@ -142,6 +142,26 @@
             cursor: pointer;
         }
 
+        .filter-chip.sort-time-chip {
+            border: 1px solid rgba(37, 99, 235, 0.4);
+            color: #2563eb;
+            background: rgba(37, 99, 235, 0.06);
+            font-weight: 700;
+        }
+
+        .filter-chip.sort-time-chip:hover {
+            background: rgba(37, 99, 235, 0.12);
+            border-color: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .filter-chip.sort-time-chip.active {
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+        }
+
         .filter-chip.active {
             background: var(--text-muted);
             color: #fff;
@@ -701,7 +721,7 @@
                 <h1>中央政府特種基金AI智能分析平台</h1>
                 <p class="subtitle">整合式專案入口與工具服務</p>
                 <div class="header-actions">
-                    <button id="sort-toggle" type="button"></button>
+                    <button id="sort-toggle" type="button">🕒 依時間排序</button>
                     <button id="video-hub-btn" type="button" class="header-btn video-hub-btn">🎬 案例操作示範影片專區</button>
                 </div>
             </div>
@@ -711,6 +731,7 @@
             <div class="filter-bar">
                 <input id="project-search" type="search" placeholder="🔍 搜尋專案名稱或說明…">
                 <button class="filter-chip active" type="button" data-tag="">全部</button>
+                <button id="sort-time-btn" class="filter-chip sort-time-chip active" type="button" title="依更新時間排序">🕒 依時間排序</button>
                 <button class="filter-chip" type="button" data-tag="tag-parser">預算解析</button>
                 <button class="filter-chip" type="button" data-tag="tag-pdf">PDF 工具</button>
                 <button class="filter-chip" type="button" data-tag="tag-excel">Excel / 文件</button>
@@ -1470,19 +1491,46 @@
                 'cb-budget-parser': 'cb-budget-parser'
             };
 
-            // 1. 初始化資料結構與讀取釘選名單
-            let cardDataList = [];
+            // 1. 初始化資料結構與讀取釘選名單（立即由卡片 DOM 提取日期，0 秒秒開排序）
+            let cardDataList = originalCards.map(card => {
+                const id = card.getAttribute('data-id');
+                return {
+                    id: id,
+                    element: card,
+                    score: 0,
+                    // ponytail: 直接讀卡片上已有的「更新: YYYY-MM-DD」字串，ISO 格式可直接字串比大小
+                    date: (card.querySelector('.update-time')?.textContent.match(/\d{4}-\d{2}-\d{2}/) || [''])[0]
+                };
+            });
             let pinnedItems = JSON.parse(localStorage.getItem('my_pinned_projects')) || [];
-            let sortBy = localStorage.getItem('my_sort_by') === 'score' ? 'score' : 'date';
+            let sortBy = localStorage.getItem('my_sort_by') || 'date';
+            let sortOrder = localStorage.getItem('my_sort_order') || 'desc';
 
             const sortToggle = document.getElementById('sort-toggle');
-            sortToggle.addEventListener('click', () => {
+            const sortTimeBtn = document.getElementById('sort-time-btn');
+
+            function handleSortToggle() {
                 sortBy = sortBy === 'date' ? 'score' : 'date';
                 localStorage.setItem('my_sort_by', sortBy);
                 renderCards();
-            });
+            }
 
-            
+            function handleSortTimeClick() {
+                if (sortBy === 'date') {
+                    // 若已是時間排序，點第 2 次切換 升冪/降冪 (新→舊 / 舊→新)
+                    sortOrder = sortOrder === 'desc' ? 'asc' : 'desc';
+                } else {
+                    sortBy = 'date';
+                    sortOrder = 'desc';
+                }
+                localStorage.setItem('my_sort_by', sortBy);
+                localStorage.setItem('my_sort_order', sortOrder);
+                renderCards();
+            }
+
+            if (sortToggle) sortToggle.addEventListener('click', handleSortToggle);
+            if (sortTimeBtn) sortTimeBtn.addEventListener('click', handleSortTimeClick);
+
             // 統一事件委託：處理卡片跳轉、釘選與示範影片按鈕
             container.addEventListener('click', (e) => {
                 const videoBtn = e.target.closest('.video-pill-btn');
@@ -1519,53 +1567,16 @@
                 }
             });
 
-            // 顯示載入中提示
-            originalCards.forEach(card => card.style.opacity = '0.5');
-
-            // 2. 抓取 GitHub 資料
-            for (let card of originalCards) {
-                const id = card.getAttribute('data-id');
-                const repoName = repoMap[id];
-                let popularityScore = 0;
-                let displayCount = "N/A";
-
-                if (repoName) {
-                    try {
-                        const response = await fetch(`https://api.github.com/repos/${githubUser}/${repoName}`);
-                        if (response.ok) {
-                            const data = await response.json();
-                            popularityScore = data.stargazers_count + data.watchers_count;
-                            displayCount = popularityScore.toString();
-                        } else {
-                            displayCount = "-";
-                        }
-                    } catch (error) {
-                        displayCount = "Err";
-                    }
-                } else {
-                    popularityScore = -1; // HF 專案預設排在後面
-                    displayCount = "HF 專案";
-                }
-
-                // 更新徽章文字
-                const badgeText = repoName ? `⭐ ${displayCount}` : `🚀 ${displayCount}`;
-                card.querySelector('.click-badge').innerHTML = badgeText;
-
-                // 卡片與按鈕事件委託在 container 統一處理
-                const pinBtn = card.querySelector('.pin-btn');
-
-                cardDataList.push({
-                    id: id,
-                    element: card,
-                    score: popularityScore,
-                    // ponytail: 直接讀卡片上已有的「更新: YYYY-MM-DD」字串，ISO 格式可直接字串比大小
-                    date: (card.querySelector('.update-time')?.textContent.match(/\d{4}-\d{2}-\d{2}/) || [''])[0]
-                });
-            }
-
-            // 3. 獨立出渲染排序函數，讓釘選後可以即時更新畫面
+            // 2. 獨立出渲染排序函數，讓釘選或切換排序後即時更新畫面
             function renderCards() {
-                sortToggle.textContent = sortBy === 'date' ? '🕒 依更新時間' : '⭐ 依星數';
+                const dateLabel = sortOrder === 'asc' ? '🕒 依時間 (舊→新)' : '🕒 依時間排序';
+                if (sortToggle) {
+                    sortToggle.textContent = sortBy === 'date' ? dateLabel : '⭐ 依星數';
+                }
+                if (sortTimeBtn) {
+                    sortTimeBtn.textContent = dateLabel;
+                    sortTimeBtn.classList.toggle('active', sortBy === 'date');
+                }
 
                 // 排序邏輯：有釘選的排前面，其餘依更新時間新到舊
                 cardDataList.sort((a, b) => {
@@ -1575,9 +1586,10 @@
                     if (aIsPinned && !bIsPinned) return -1;
                     if (!aIsPinned && bIsPinned) return 1;
                     
-                    // 若兩者都釘選或都沒釘選，則依目前選擇的排序方式，另一項當次序
+                    // 若兩者都釘選或都沒釘選，則依目前選擇的排序方式
                     if (sortBy === 'date') {
-                        if (a.date !== b.date) return b.date.localeCompare(a.date);
+                        const cmp = sortOrder === 'asc' ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date);
+                        if (cmp !== 0) return cmp;
                         return b.score - a.score;
                     }
                     if (a.score !== b.score) return b.score - a.score;
@@ -1605,7 +1617,7 @@
 
             // 篩選：關鍵字比對卡片文字，分類比對 tag class 或釘選狀態
             const searchInput = document.getElementById('project-search');
-            const chips = document.querySelectorAll('.filter-chip');
+            const chips = document.querySelectorAll('.filter-chip[data-tag]');
             let activeTag = '';
             function applyFilter() {
                 const q = searchInput.value.trim().toLowerCase();
@@ -1635,8 +1647,46 @@
                 applyFilter();
             }));
 
-            // 初始執行一次排序與渲染
+            // 立即執行初始渲染（0 秒載入，新專案立即排在最前！）
             renderCards();
+
+            // 3. 背景非同步抓取 GitHub 星數資料（不阻塞頁面與排序）
+            (async () => {
+                for (let item of cardDataList) {
+                    const id = item.id;
+                    const repoName = repoMap[id];
+                    let popularityScore = 0;
+                    let displayCount = "N/A";
+
+                    if (repoName) {
+                        try {
+                            const response = await fetch(`https://api.github.com/repos/${githubUser}/${repoName}`);
+                            if (response.ok) {
+                                const data = await response.json();
+                                popularityScore = data.stargazers_count + data.watchers_count;
+                                displayCount = popularityScore.toString();
+                            } else {
+                                displayCount = "-";
+                            }
+                        } catch (error) {
+                            displayCount = "Err";
+                        }
+                    } else {
+                        popularityScore = -1;
+                        displayCount = "HF 專案";
+                    }
+
+                    item.score = popularityScore;
+                    const badgeText = repoName ? `⭐ ${displayCount}` : `🚀 ${displayCount}`;
+                    const badge = item.element.querySelector('.click-badge');
+                    if (badge) badge.innerHTML = badgeText;
+                }
+
+                // 若當前是以星數排序，背景抓取完星數後自動刷新一次排序
+                if (sortBy === 'score') {
+                    renderCards();
+                }
+            })();
         });
     </script>
     <div id="update-banner" hidden>
