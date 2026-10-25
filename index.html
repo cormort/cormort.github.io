@@ -1622,8 +1622,16 @@
             }
             searchInput.addEventListener('input', applyFilter);
             chips.forEach(chip => chip.addEventListener('click', () => {
-                chips.forEach(c => c.classList.toggle('active', c === chip));
-                activeTag = chip.dataset.tag;
+                const tag = chip.dataset.tag;
+                if (activeTag === tag && tag !== '') {
+                    // 按第 2 下解除篩選，切換回全部
+                    activeTag = '';
+                    const allChip = Array.from(chips).find(c => c.dataset.tag === '');
+                    chips.forEach(c => c.classList.toggle('active', c === allChip));
+                } else {
+                    chips.forEach(c => c.classList.toggle('active', c === chip));
+                    activeTag = tag;
+                }
                 applyFilter();
             }));
 
