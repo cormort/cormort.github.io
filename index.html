@@ -440,6 +440,30 @@
             box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
         }
 
+        /* 多支影片的卡片：一顆「教學影片」按鈕展開清單（卡片 overflow:hidden，清單放在卡片內而非浮層） */
+        .video-menu-toggle {
+            list-style: none;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #ffffff;
+            padding: 0.25rem 0.7rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+        }
+        .video-menu-toggle::-webkit-details-marker { display: none; }
+        .video-menu-toggle::after { content: '▾'; transition: transform 0.2s ease; }
+        .video-menu[open] .video-menu-toggle::after { transform: rotate(180deg); }
+        .video-menu[open] { flex-basis: 100%; }
+        .video-menu-list { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+        .video-menu-item { font-size: 0.72rem; padding: 0.2rem 0.6rem; }
+        .card-footer:has(.video-menu) { flex-wrap: wrap; gap: 0.5rem; }
+        .card-footer:has(.video-menu) .update-time { white-space: nowrap; }
+
         .video-pill-btn:hover {
             transform: scale(1.08);
             box-shadow: 0 4px 12px rgba(124, 58, 237, 0.45);
@@ -1098,16 +1122,21 @@
                         <div class="card-footer">
                             <div class="card-footer-left">
                                 <span class="card-tag tag-parser">預算解析</span>
-                                <button class="video-pill-btn" type="button" data-video="fund_reconciliation_intro" title="觀看工具介紹影片">🎬 介紹影片</button>
-                                <button class="video-pill-btn" type="button" data-video="soe_statements_check" title="觀看國營事業綜計表檢誤影片">🎬 國營事業</button>
-                                <button class="video-pill-btn" type="button" data-video="trust_statements_check" title="觀看信託基金主要表檢誤影片">🎬 信託基金</button>
-                                <button class="video-pill-btn" type="button" data-video="pdf_statements_check" title="觀看主要表 PDF 檢誤影片">🎬 主要表 PDF</button>
-                                <button class="video-pill-btn" type="button" data-video="fixed_assets_check" title="觀看固定資產計畫核對影片">🎬 固定資產</button>
-                                <button class="video-pill-btn" type="button" data-video="long_debt_check" title="觀看長期債務核對影片">🎬 長期債務</button>
-                                <button class="video-pill-btn" type="button" data-video="employees_check" title="觀看員工人數核對影片">🎬 員工人數</button>
-                                <button class="video-pill-btn" type="button" data-video="personnel_cost_check" title="觀看用人費用明細表檢誤影片">🎬 用人費用</button>
-                                <button class="video-pill-btn" type="button" data-video="fund_amount_check" title="觀看基金數額增減綜計表檢誤影片">🎬 基金數額</button>
-                                <button class="video-pill-btn" type="button" data-video="long_debt_cashflow_explainer" title="觀看長期債務與現金流量表勾稽說明影片">🎬 勾稽說明</button>
+                                <details class="video-menu">
+                                    <summary class="video-menu-toggle" title="展開教學影片清單">🎬 教學影片（10）</summary>
+                                    <div class="video-menu-list">
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="fund_reconciliation_intro" title="觀看工具介紹影片">介紹影片</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="soe_statements_check" title="觀看國營事業綜計表檢誤影片">國營事業</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="trust_statements_check" title="觀看信託基金主要表檢誤影片">信託基金</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="pdf_statements_check" title="觀看主要表 PDF 檢誤影片">主要表 PDF</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="fixed_assets_check" title="觀看固定資產計畫核對影片">固定資產</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="long_debt_check" title="觀看長期債務核對影片">長期債務</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="employees_check" title="觀看員工人數核對影片">員工人數</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="personnel_cost_check" title="觀看用人費用明細表檢誤影片">用人費用</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="fund_amount_check" title="觀看基金數額增減綜計表檢誤影片">基金數額</button>
+                                        <button class="video-pill-btn video-menu-item" type="button" data-video="long_debt_cashflow_explainer" title="觀看長期債務與現金流量表勾稽說明影片">勾稽說明</button>
+                                    </div>
+                                </details>
                             </div>
                             <span class="update-time">更新: 2026-11-24</span>
                         </div>
@@ -1696,6 +1725,7 @@
                     openVideoModal(vKey);
                     return;
                 }
+                if (e.target.closest('.video-menu')) return;  // 展開／收合影片清單，不開啟工具
                 const pinBtn = e.target.closest('.pin-btn');
                 if (pinBtn) {
                     e.preventDefault();
