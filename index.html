@@ -469,6 +469,16 @@
             box-shadow: 0 4px 12px rgba(124, 58, 237, 0.45);
         }
 
+        /* --- QR Code 彈窗 --- */
+        .qr-btn { background: #fff; color: #334155; border: 1px solid #cbd5e1; padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; cursor: pointer; }
+        .qr-btn:hover { background: #f1f5f9; }
+        #qr-dialog { margin: auto; border: none; border-radius: 16px; padding: 1.2rem; text-align: center; max-width: 92vw; }
+        #qr-dialog::backdrop { background: rgba(15, 23, 42, 0.7); }
+        #qr-dialog h3 { margin: 0 0 0.6rem; font-size: 1rem; }
+        #qr-img { width: 220px; height: 220px; cursor: zoom-in; image-rendering: pixelated; transition: width 0.2s, height 0.2s; }
+        #qr-img.zoom { width: min(80vw, 80vh); height: min(80vw, 80vh); cursor: zoom-out; }
+        #qr-url { display: block; font-size: 0.75rem; word-break: break-all; margin: 0.5rem 0; color: #475569; }
+
         /* --- 示範影片彈窗 (Video Modal) --- */
         .video-modal-backdrop {
             position: fixed;
@@ -709,6 +719,7 @@
 
     </style>
 <!-- Google tag (gtag.js) -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-GHGBM401HN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -1231,6 +1242,13 @@
 
 
     <!-- 示範影片彈出視窗 (Video Modal) -->
+    <dialog id="qr-dialog">
+        <h3 id="qr-title"></h3>
+        <img id="qr-img" alt="QR Code" title="點擊放大／縮小">
+        <a id="qr-url" target="_blank" rel="noopener noreferrer"></a>
+        <button class="qr-btn" type="button" onclick="this.closest('dialog').close()">關閉</button>
+    </dialog>
+
     <div id="video-modal" class="video-modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
         <div class="video-modal-dialog">
             <div class="video-modal-header">
@@ -1722,6 +1740,26 @@
                 'fund-reconciliation': 'fund-reconciliation'
             };
 
+            // QR Code：每張卡片加按鈕（ponytail: 用 CDN 的 qrcode-generator，離線時無法產生）
+            originalCards.forEach(card => {
+                const left = card.querySelector('.card-footer-left');
+                if (!left || !card.dataset.href || card.dataset.href === '#') return;
+                left.insertAdjacentHTML('beforeend', '<button class="qr-btn" type="button" title="顯示此工具的 QR Code">📱 QR Code</button>');
+            });
+            const qrDialog = document.getElementById('qr-dialog');
+            const qrImg = document.getElementById('qr-img');
+            qrImg.addEventListener('click', () => qrImg.classList.toggle('zoom'));
+            qrDialog.addEventListener('click', e => { if (e.target === qrDialog) qrDialog.close(); });
+            function openQr(card) {
+                const url = card.dataset.href;
+                const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+                qrImg.src = qr.createDataURL(8, 2);
+                qrImg.classList.remove('zoom');
+                document.getElementById('qr-title').textContent = card.querySelector('h2')?.textContent.replace(/^案例 \d+/, '') || '';
+                const a = document.getElementById('qr-url'); a.href = url; a.textContent = url;
+                qrDialog.showModal();
+            }
+
             // 1. 初始化資料結構與讀取釘選名單（立即由卡片 DOM 提取日期，0 秒秒開排序）
             let cardDataList = originalCards.map(card => {
                 const id = card.getAttribute('data-id');
@@ -1770,6 +1808,12 @@
                     e.stopPropagation();
                     const vKey = videoBtn.getAttribute('data-video');
                     openVideoModal(vKey);
+                    return;
+                }
+                const qrBtn = e.target.closest('.qr-btn');
+                if (qrBtn) {
+                    e.stopPropagation();
+                    openQr(qrBtn.closest('.card'));
                     return;
                 }
                 if (e.target.closest('.video-menu')) return;  // 展開／收合影片清單，不開啟工具
